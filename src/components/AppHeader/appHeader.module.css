@@ -1,0 +1,31 @@
+.header {
+  display: flex;
+  max-width: 1280px;
+  justify-content: space-between;
+}
+
+.navigation {
+  display: flex;
+  list-style-type: none;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.navigation__item {
+  display: flex;
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+  text-decoration: none;
+  color: white;
+  align-items: center;
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
