@@ -1,12 +1,12 @@
-const config = {
-  baseUrl: 'https://norma.nomoreparties.space/api/ingredients'
-};
+const config = 'https://norma.nomoreparties.space/api/ingredients';
 
-export function getResponseData() {
-  fetch(config.baseUrl)
+export function getResponseData(assignData) {
+  fetch(config)
     .then(res => res.json())
-    // .then(json => setData(json))
+    .then(json => {
+      assignData(json);
+    })
     .catch(error => {
-      console.error('Error:', error);
+      console.log('Error:', error);
     });
 }
