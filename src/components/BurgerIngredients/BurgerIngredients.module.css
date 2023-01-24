@@ -1,0 +1,17 @@
+.box {
+  width: 600px;
+  height: 912px;
+  overflow: hidden;
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  overflow: auto;
+  height: 716px;
+}
+
+.link {
+}
