@@ -1,0 +1,18 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.main {
+  display: grid;
+  grid-template: 1fr / repeat(2, 600px);
+  gap: 40px;
+}
+
+.typeIngredient {
+  width: 100%;
+  margin: 0px;
+}
