@@ -8,27 +8,29 @@ import appHeaderStyle from './AppHeader.module.css';
 
 function AppHeader() {
   return (
-    <header className={appHeaderStyle.header + ' pt-10 pb-5 pl-5 pr-5'}>
-      <nav className="pb-4 pt-4">
-        <ul className={appHeaderStyle.navigation}>
-          <li className={appHeaderStyle.navigation__item + ' pb-4 pt-4 pr-5 pl-5'}>
-            <BurgerIcon type="primary" />
-            <span className="pl-2">Конструктор</span>
-          </li>
-          <li className={appHeaderStyle.navigation__item + ' pb-4 pt-4 pr-5 pl-5'}>
-            <ListIcon type="primary" />
-            <span className="pl-2">Лента заказов</span>
-          </li>
-        </ul>
-      </nav>
-      <div className={appHeaderStyle.logo}>
-        <Logo />
-      </div>
+    <header className={appHeaderStyle.header}>
+      <section className={appHeaderStyle.container}>
+        <nav className="pb-4 pt-4">
+          <ul className={appHeaderStyle.navigation}>
+            <li className={appHeaderStyle.navigation__item + ' pb-4 pt-4 pr-5 pl-5'}>
+              <BurgerIcon type="primary" />
+              <span className="text text_type_main-default pl-2">Конструктор</span>
+            </li>
+            <li className={appHeaderStyle.navigation__item + ' pb-4 pt-4 pr-5 pl-5'}>
+              <ListIcon type="primary" />
+              <span className="text text_type_main-default pl-2">Лента заказов</span>
+            </li>
+          </ul>
+        </nav>
+        <div className={appHeaderStyle.logo}>
+          <Logo />
+        </div>
 
-      <a href="#" className={appHeaderStyle.profile + ' pb-4 pt-4'}>
-        <ProfileIcon type="primary" />
-        <span className="pl-2">Личный кабинет</span>
-      </a>
+        <a href="#" className={appHeaderStyle.profile + ' pb-4 pt-4 pr-5 pl-5'}>
+          <ProfileIcon type="primary" />
+          <span className="text text_type_main-default pl-2">Личный кабинет</span>
+        </a>
+      </section>
     </header>
   );
 }
