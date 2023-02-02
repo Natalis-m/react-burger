@@ -1,11 +1,10 @@
 import {
   ConstructorElement,
-  CurrencyIcon,
-  Button
+  CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructorStyle from './BurgerConstructor.module.css';
 
-function BurgerConstructor() {
+function BurgerConstructor(props) {
   const data = {
     name: 'Краторная булка N-200i',
     img: 'https://code.s3.yandex.net/react/code/bun-02.png',
@@ -48,9 +47,10 @@ function BurgerConstructor() {
             <span className="text text_type_digits-medium">600</span>
             <CurrencyIcon type="primary" />
           </div>
-          <Button htmlType="button" type="primary" size="medium">
+          {props.children}
+          {/* <Button htmlType="button" type="primary" size="medium">
             Оформить заказ
-          </Button>
+          </Button> */}
         </div>
       </div>
     </section>
