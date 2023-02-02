@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import BurgerConstructor from './components/BurgerConstructor/BurgerConstructor';
-import BurgerIngredients from './components/BurgerIngredients/BurgerIngredients';
-import BurgerIngredient from './components/BurgerIngredient/BurgerIngredient';
-import AppHeader from './components/AppHeader/AppHeader.js';
+import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
+import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
+import BurgerIngredient from '../BurgerIngredient/BurgerIngredient';
+import AppHeader from '../AppHeader/AppHeader.js';
 import AppStyle from './App.module.css';
-import { getResponseData } from './utils/api';
-import Modal from './components/Modal/Modal';
-import IngredientDetails from './components/IngredientDetails/IngredientDetails';
-import OrderDetalis from './components/OrderDetails/OrderDetails';
+import { getResponseData } from '../../utils/api';
+import Modal from '../Modal/Modal';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import OrderDetalis from '../OrderDetails/OrderDetails';
 
 function App() {
   const [dataArray, setDataArray] = useState(null);

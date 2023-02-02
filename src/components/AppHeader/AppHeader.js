@@ -26,7 +26,7 @@ function AppHeader() {
           <Logo />
         </div>
 
-        <a href="#" className={appHeaderStyle.profile + ' pb-4 pt-4 pr-5 pl-5'}>
+        <a href="#" className={AppHeaderStyle.profile + ' pb-4 pt-4 pr-5 pl-5'}>
           <ProfileIcon type="primary" />
           <span className="text text_type_main-default pl-2">Личный кабинет</span>
         </a>
