@@ -1,0 +1,40 @@
+.header {
+  width: 100%;
+  background: #1c1c21;
+  text-align: center;
+}
+
+.container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.navigation {
+  display: flex;
+  list-style-type: none;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.navigation__item {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  position: absolute;
+  left: calc((100% - 290px) / 2);
+}
+
+.profile {
+  display: flex;
+  text-decoration: none;
+  color: white;
+  align-items: center;
+}

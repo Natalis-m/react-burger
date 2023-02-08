@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  max-height: 750px;
+}
+
+.order {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 40px;
+  text-align: right;
+}
+
+.burgerMain {
+  list-style-image: url('../../images/vector.png');
+  margin: 0;
+  max-height: 480px;
+  width: 550px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

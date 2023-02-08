@@ -1,0 +1,13 @@
+.box {
+  overflow: hidden;
+  text-align: left;
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0px 8px;
+  overflow: auto;
+  height: 860px;
+}
