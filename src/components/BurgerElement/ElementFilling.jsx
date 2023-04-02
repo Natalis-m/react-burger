@@ -1,0 +1,86 @@
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { deletIngredient, setFilling } from '../../services/slices/burgerConstructorSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRef } from 'react';
+import { useDrag, useDrop } from 'react-dnd';
+
+function ElementFilling({ _id, name, price, image, index }) {
+  const dispatch = useDispatch();
+  const filling = useSelector(state => state.burgerConstructorReducer.filling);
+
+  const removeIngredient = () => {
+    const finedIndex = filling.findIndex(item => item._id === _id);
+
+    if (finedIndex === -1) {
+      return;
+    }
+
+    const newArrFilling = filling
+      .slice(0, finedIndex)
+      .concat(filling.slice(finedIndex + 1, filling.length));
+    dispatch(deletIngredient(newArrFilling));
+  };
+
+  const ref = useRef(null);
+  const [{ handlerId }, drop] = useDrop({
+    accept: 'sorting',
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId()
+      };
+    },
+    hover(item, monitor) {
+      const dragIndex = item.index;
+      const hoverIndex = index;
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const clientOffset = monitor.getClientOffset();
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+      if (!ref.current) {
+        return;
+      }
+
+      if (dragIndex === hoverIndex) {
+        return;
+      }
+
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
+      }
+
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
+      }
+
+      dispatch(setFilling({ from: dragIndex, to: hoverIndex }));
+      item.index = hoverIndex;
+    }
+  });
+
+  const [, drag] = useDrag({
+    type: 'sorting',
+    item: { name, index }
+  });
+  drag(drop(ref));
+
+  return (
+    <li
+      ref={ref}
+      className="pt-4"
+      draggable={true}
+      index={index}
+      style={{ minWidth: '100%' }}
+      data-handler-id={handlerId}
+    >
+      <ConstructorElement
+        text={name}
+        price={price}
+        thumbnail={image}
+        handleClose={removeIngredient}
+      />
+    </li>
+  );
+}
+
+export default ElementFilling;
