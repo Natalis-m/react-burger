@@ -4,10 +4,20 @@
 }
 
 .ingredients {
-  display: flex;
+  /* display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 0px 8px;
+  gap: 0px 8px; */
   overflow: auto;
   height: 860px;
+}
+
+.typeIngredient {
+  min-width: 100%;
+}
+
+.section {
+  display: flex;
+  flex-wrap: wrap;
+  /* min-height: 700px; */
 }
