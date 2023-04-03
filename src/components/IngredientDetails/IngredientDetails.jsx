@@ -7,7 +7,7 @@ const IngredientDetails = () => {
   );
   return (
     <div className={IngredientStyle.content}>
-      <h2 className="text text_type_main-large pt-3 pb-3" style={{ alignSelf: 'flex-start' }}>
+      <h2 className={IngredientStyle.title + ' text text_type_main-large pt-3 pb-3'}>
         Детали ингредиента
       </h2>
       <img src={image} alt={name} className={IngredientStyle.img} />

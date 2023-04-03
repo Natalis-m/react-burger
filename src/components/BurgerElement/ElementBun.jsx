@@ -13,14 +13,13 @@ function ElementBun({ type, item }) {
     }
   });
   return (
-    <div ref={dropBun} style={{ height: '100px' }}>
+    <div ref={dropBun}>
       <ConstructorElement
         type={type}
         isLocked={true}
         text={bun.name + ` (${item})`}
         price={bun.price}
         thumbnail={bun.image}
-        style={{ with: 100 }}
       />
     </div>
   );

@@ -105,7 +105,7 @@ function BurgerIngredients() {
   return (
     <section className={BurgerIngredientStyle.box}>
       <h1 className="text text_type_main-large pb-5 pt-10">Соберите бургер</h1>
-      <div style={{ display: 'flex' }}>{navigation()}</div>
+      <div className={BurgerIngredientStyle.nav}>{navigation()}</div>
       <section
         id="sectionIngredients"
         className={BurgerIngredientStyle.ingredients + ' custom-scroll pr-1'}

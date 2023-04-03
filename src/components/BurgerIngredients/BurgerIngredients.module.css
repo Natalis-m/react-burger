@@ -4,10 +4,6 @@
 }
 
 .ingredients {
-  /* display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 0px 8px; */
   overflow: auto;
   height: 860px;
 }
@@ -19,5 +15,7 @@
 .section {
   display: flex;
   flex-wrap: wrap;
-  /* min-height: 700px; */
+}
+.nav {
+  display: flex;
 }

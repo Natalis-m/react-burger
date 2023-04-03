@@ -3,6 +3,7 @@ import { deletIngredient, setFilling } from '../../services/slices/burgerConstru
 import { useDispatch, useSelector } from 'react-redux';
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import Style from './ElementFilling.module.css';
 
 function ElementFilling({ _id, name, price, image, index }) {
   const dispatch = useDispatch();
@@ -67,10 +68,9 @@ function ElementFilling({ _id, name, price, image, index }) {
   return (
     <li
       ref={ref}
-      className="pt-4"
+      className={Style.element + ' pt-4'}
       draggable={true}
       index={index}
-      style={{ minWidth: '100%' }}
       data-handler-id={handlerId}
     >
       <ConstructorElement
