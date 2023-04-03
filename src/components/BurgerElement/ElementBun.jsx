@@ -21,9 +21,6 @@ function ElementBun({ type, item }) {
         text={bun.name + ` (${item})`}
         price={bun.price}
         thumbnail={bun.image}
-        // text={bun ? bun.name + ` (${item})` : 'Добавьте булку'}
-        // price={bun ? bun.price : '0'}
-        // thumbnail={bun ? bun.image : ''}
       />
     </div>
   );
