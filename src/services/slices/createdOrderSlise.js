@@ -25,8 +25,7 @@ const createdOrderSlise = createSlice({
       state = [];
     },
     [sendBurger.fulfilled]: (state, action) => {
-      state = action.payload;
-      console.log('state', state);
+      return { ...action.payload };
     },
     [sendBurger.rejected]: (state, error) => {
       console.log('Error:', error);
