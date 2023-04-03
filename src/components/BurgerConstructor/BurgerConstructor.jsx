@@ -1,4 +1,6 @@
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useCallback } from 'react';
+import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import BurgerConstructorStyle from './BurgerConstructor.module.css';
 import { setStateModal } from '../../services/slices/modalStateSlise';
@@ -6,8 +8,6 @@ import { addModalOrder } from '../../services/slices/modalStateSlise';
 import ElementFilling from '../BurgerElement/ElementFilling';
 import ElementBun from '../BurgerElement/ElementBun';
 import { addFilling } from '../../services/slices/burgerConstructorSlice';
-import { useCallback } from 'react';
-import { useDrop } from 'react-dnd';
 import { sendBurger } from '../../services/slices/createdOrderSlise';
 
 function BurgerConstructor() {
@@ -36,7 +36,7 @@ function BurgerConstructor() {
   }
 
   const renderCard = useCallback((ingredient, i) => {
-    return <ElementFilling {...ingredient} key={i} index={i} />;
+    return <ElementFilling {...ingredient} key={ingredient.id} index={i} />;
   }, []);
 
   const sendOrder = () => {
