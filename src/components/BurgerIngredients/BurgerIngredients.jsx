@@ -9,6 +9,8 @@ import { useState, useEffect } from 'react';
 import Skeleton from '../BurgerIngredient/Skeleton';
 import { arrData } from '../../utils/ui';
 import { useInView } from 'react-intersection-observer';
+import { setOpenModal } from '../App/App';
+import { v4 as uuidv4 } from 'uuid';
 
 function BurgerIngredients() {
   const skeletons = [...new Array(2)].map((_, index) => <Skeleton key={index} />);
@@ -25,8 +27,9 @@ function BurgerIngredients() {
           <BurgerIngredient
             onClick={() => {
               dispatch(changeDetailsIngredient({ ...data }));
-              dispatch(setStateModal(true));
-              dispatch(addModalIngredient(true));
+              setOpenModal(true);
+              // dispatch(setStateModal(true));
+              // dispatch(addModalIngredient(true));
             }}
             drag={dragType}
             draggable={true}
@@ -49,9 +52,11 @@ function BurgerIngredients() {
   const navigation = () => {
     return arrData.map(i => {
       return (
-        <Tab value={i.type} active={current === i.type} onClick={handleTabClick}>
-          {i.title}
-        </Tab>
+        <li key={uuidv4()}>
+          <Tab value={i.type} active={current === i.type} onClick={handleTabClick}>
+            {i.title}
+          </Tab>
+        </li>
       );
     });
   };
@@ -105,7 +110,7 @@ function BurgerIngredients() {
   return (
     <section className={BurgerIngredientStyle.box}>
       <h1 className="text text_type_main-large pb-5 pt-10">Соберите бургер</h1>
-      <div className={BurgerIngredientStyle.nav}>{navigation()}</div>
+      <ul className={BurgerIngredientStyle.nav}>{navigation()}</ul>
       <section
         id="sectionIngredients"
         className={BurgerIngredientStyle.ingredients + ' custom-scroll pr-1'}
