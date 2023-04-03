@@ -56,7 +56,18 @@ function BurgerConstructor({ openModal }) {
           <span className="text text_type_digits-medium">{priseBurger(arrPriceIngredient)}</span>
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType="button" type="primary" size="medium" onClick={sendOrder}>
+        <Button
+          htmlType="button"
+          type="primary"
+          size="medium"
+          onClick={
+            bun.name === 'добавьте булку'
+              ? () => {
+                  alert('Добавьте булку');
+                }
+              : sendOrder
+          }
+        >
           Оформить заказ
         </Button>
       </div>

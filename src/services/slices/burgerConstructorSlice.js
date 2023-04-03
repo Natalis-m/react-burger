@@ -7,6 +7,7 @@ const initialState = {
     price: 0,
     image: 'https://code.s3.yandex.net/react/code/bun-02.png'
   },
+  // bun: [],
   filling: []
 };
 
@@ -34,6 +35,7 @@ const burgerConstructorSlice = createSlice({
     clearConstructor(state) {
       state.filling = [];
       state.bun = initialState.bun;
+      // state.bun = [];
     }
   }
 });
