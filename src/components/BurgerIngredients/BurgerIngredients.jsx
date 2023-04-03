@@ -1,7 +1,6 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredients.module.css';
 import BurgerIngredient from '../BurgerIngredient/BurgerIngredient';
-import { setStateModal, addModalIngredient } from '../../services/slices/modalStateSlise';
 import { changeDetailsIngredient } from '../../services/slices/currentIngredientSlice';
 import { fetchIngredients } from '../../services/slices/getIngredientsSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,10 +8,9 @@ import { useState, useEffect } from 'react';
 import Skeleton from '../BurgerIngredient/Skeleton';
 import { arrData } from '../../utils/ui';
 import { useInView } from 'react-intersection-observer';
-import { setOpenModal } from '../App/App';
 import { v4 as uuidv4 } from 'uuid';
 
-function BurgerIngredients() {
+function BurgerIngredients({ openModal }) {
   const skeletons = [...new Array(2)].map((_, index) => <Skeleton key={index} />);
   const { items, status } = useSelector(state => state.getIngredientsReducer);
   const [current, setCurrent] = useState('bun');
@@ -27,9 +25,8 @@ function BurgerIngredients() {
           <BurgerIngredient
             onClick={() => {
               dispatch(changeDetailsIngredient({ ...data }));
-              setOpenModal(true);
-              // dispatch(setStateModal(true));
-              // dispatch(addModalIngredient(true));
+
+              openModal({ modalIngredient: true });
             }}
             drag={dragType}
             draggable={true}

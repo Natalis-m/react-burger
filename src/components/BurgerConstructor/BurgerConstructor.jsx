@@ -3,20 +3,13 @@ import { useCallback } from 'react';
 import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import BurgerConstructorStyle from './BurgerConstructor.module.css';
-import { setStateModal } from '../../services/slices/modalStateSlise';
-import { addModalOrder } from '../../services/slices/modalStateSlise';
 import ElementFilling from '../BurgerElement/ElementFilling';
 import ElementBun from '../BurgerElement/ElementBun';
-import { addFilling } from '../../services/slices/burgerConstructorSlice';
+import { addFilling, clearConstructor } from '../../services/slices/burgerConstructorSlice';
 import { sendBurger } from '../../services/slices/createdOrderSlise';
 
-function BurgerConstructor() {
+function BurgerConstructor({ openModal }) {
   const dispatch = useDispatch();
-
-  function openModal() {
-    dispatch(setStateModal(true));
-    dispatch(addModalOrder(true));
-  }
 
   const { filling, bun } = useSelector(state => state.burgerConstructorReducer);
 
@@ -42,7 +35,8 @@ function BurgerConstructor() {
   const sendOrder = () => {
     let arrIngredientId = filling.map(i => i._id).concat(bun._id);
     dispatch(sendBurger(arrIngredientId));
-    openModal();
+    openModal({ modalOrder: true });
+    dispatch(clearConstructor());
   };
 
   return (

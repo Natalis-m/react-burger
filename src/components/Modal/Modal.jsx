@@ -1,60 +1,76 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import OrderDetails from '../OrderDetails/OrderDetails';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import modalStyle from './Modal.module.css';
-import {
-  setStateModal,
-  addModalIngredient,
-  addModalOrder
-} from '../../services/slices/modalStateSlise';
 
 const modalElement = document.querySelector('#modal');
 
-const Modal = () => {
-  const dispatch = useDispatch();
-  const element = document.createElement('div');
-  const { modalIngredient, modalOrder, opened } = useSelector(state => state.modalStateReduser);
+// const Modal = ({ onClose, children }) => {
+// const Modal = () => {
+//   const element = document.createElement('div');
 
+//   useEffect(modalElement.appendChild(element), [element]);
+
+//   // useEffect(() => {
+//   //   function closeByEscape(evt) {
+//   //     if (evt.key === 'Escape') {
+//   //       onClose(false);
+//   //     }
+//   //   }
+//   //   document.addEventListener('keydown', closeByEscape);
+//   //   return () => {
+//   //     document.removeEventListener('keydown', closeByEscape);
+//   //   };
+//   // }, []);
+
+//   return createPortal(
+//     <section
+//       className={modalStyle.modal}
+//       // onClick={() => onClose(false)}
+//     >
+//       <div
+//         className={modalStyle.content + ' pt-10 pr-10 pb-10 pl-10'}
+//         onClick={e => e.stopPropagation()}
+//       >
+//         <div
+//           className={modalStyle.closed}
+//           // onClick={() => onClose(false)}
+//         >
+//           <CloseIcon type="primary" />
+//         </div>
+//         {/* {children} */}
+//       </div>
+//     </section>,
+//     element
+//   );
+// };
+
+const Modal = ({ onClose, children }) => {
   useEffect(() => {
-    if (opened) {
-      modalElement.appendChild(element);
-      return () => {
-        modalElement.removeChild(element);
-      };
+    function closeByEscape(evt) {
+      if (evt.key === 'Escape') {
+        onClose(false);
+      }
     }
-  }, [element]);
-
-  function modalClosed() {
-    dispatch(setStateModal(false));
-    dispatch(addModalIngredient(false));
-    dispatch(addModalOrder(false));
-  }
-
-  const closedModalEsc = event => {
-    if (event.key === 'Escape' && opened) {
-      modalClosed();
-    }
-  };
-
-  document.addEventListener('keydown', closedModalEsc);
+    document.addEventListener('keydown', closeByEscape);
+    return () => {
+      document.removeEventListener('keydown', closeByEscape);
+    };
+  }, []);
 
   return createPortal(
-    <section className={modalStyle.modal} onClick={() => modalClosed()}>
+    <section className={modalStyle.modal} onClick={() => onClose(false)}>
       <div
         className={modalStyle.content + ' pt-10 pr-10 pb-10 pl-10'}
         onClick={e => e.stopPropagation()}
       >
-        <div className={modalStyle.closed} onClick={() => modalClosed()}>
+        <div className={modalStyle.closed} onClick={() => onClose(false)}>
           <CloseIcon type="primary" />
         </div>
-        {modalIngredient && <IngredientDetails />}
-        {modalOrder && <OrderDetails />}
+        {children}
       </div>
     </section>,
-    element
+    modalElement
   );
 };
 

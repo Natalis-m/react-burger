@@ -5,18 +5,32 @@ import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import AppHeader from '../AppHeader/AppHeader';
 import AppStyle from './App.module.css';
 import Modal from '../Modal/Modal';
+import { useState } from 'react';
+import OrderDetails from '../OrderDetails/OrderDetails';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 function App() {
+  const [openModal, setOpenModal] = useState({ modalIngredient: false, modalOrder: false });
+
   return (
     <div className={AppStyle.App}>
       <AppHeader />
       <DndProvider backend={HTML5Backend}>
         <main className={AppStyle.main}>
-          <BurgerIngredients />
-          <BurgerConstructor />
+          <BurgerIngredients openModal={setOpenModal} />
+          <BurgerConstructor openModal={setOpenModal} />
         </main>
       </DndProvider>
-      <Modal />
+      {openModal.modalIngredient && (
+        <Modal onClose={setOpenModal}>
+          <IngredientDetails />
+        </Modal>
+      )}
+      {openModal.modalOrder && (
+        <Modal onClose={setOpenModal}>
+          <OrderDetails />
+        </Modal>
+      )}
     </div>
   );
 }
