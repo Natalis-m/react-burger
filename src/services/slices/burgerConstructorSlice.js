@@ -17,7 +17,6 @@ const burgerConstructorSlice = createSlice({
     addFilling(state, actions) {
       state.filling = [...state.filling, actions.payload];
       state.filling = state.filling.map(e => ({ ...e, id: uuidv4() }));
-      console.log('filling', state.filling);
     },
     deletIngredient(state, actions) {
       state.filling = actions.payload;
