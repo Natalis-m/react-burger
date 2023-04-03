@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { BASE_URL } from '../../utils/api';
 import axios from 'axios';
 
 export const sendBurger = createAsyncThunk('createdOrder/sendBurger', async ingredientsArr => {
-  const { data } = await axios.post('https://norma.nomoreparties.space/api/orders', {
+  const { data } = await axios.post(`${BASE_URL}/orders`, {
     ingredients: ingredientsArr
   });
   return data;
