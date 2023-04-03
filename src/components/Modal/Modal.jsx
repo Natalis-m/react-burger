@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import modalStyle from './Modal.module.css';
+import PropTypes from 'prop-types';
 
 const modalElement = document.querySelector('#modal');
 const Modal = ({ onClose, children }) => {
@@ -34,3 +35,8 @@ const Modal = ({ onClose, children }) => {
 };
 
 export default Modal;
+
+Modal.propTypes = {
+  onClose: PropTypes.func,
+  children: PropTypes.element
+};

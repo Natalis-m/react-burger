@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import Style from './ElementFilling.module.css';
+import PropTypes from 'prop-types';
 
 function ElementFilling({ _id, name, price, image, index }) {
   const dispatch = useDispatch();
@@ -84,3 +85,11 @@ function ElementFilling({ _id, name, price, image, index }) {
 }
 
 export default ElementFilling;
+
+ElementFilling.propTypes = {
+  _id: PropTypes.string,
+  name: PropTypes.string,
+  price: PropTypes.number,
+  image: PropTypes.string,
+  index: PropTypes.number
+};

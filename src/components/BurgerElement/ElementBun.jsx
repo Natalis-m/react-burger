@@ -2,11 +2,12 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { setBun } from '../../services/slices/burgerConstructorSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
+import PropTypes from 'prop-types';
 
 function ElementBun({ type, item }) {
   const dispatch = useDispatch();
   const bun = useSelector(state => state.burgerConstructorReducer.bun);
-  console.log('bun', bun);
+
   const [{}, dropBun] = useDrop({
     accept: 'bun',
     drop: item => {
@@ -27,3 +28,8 @@ function ElementBun({ type, item }) {
 }
 
 export default ElementBun;
+
+ElementBun.propTypes = {
+  type: PropTypes.string,
+  item: PropTypes.string
+};

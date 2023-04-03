@@ -9,6 +9,7 @@ import Skeleton from '../BurgerIngredient/Skeleton';
 import { arrData } from '../../utils/ui';
 import { useInView } from 'react-intersection-observer';
 import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types';
 
 function BurgerIngredients({ openModal }) {
   const skeletons = [...new Array(2)].map((_, index) => <Skeleton key={index} />);
@@ -121,3 +122,7 @@ function BurgerIngredients({ openModal }) {
 export const { setCount } = BurgerIngredients;
 
 export default BurgerIngredients;
+
+BurgerIngredients.propTypes = {
+  openModal: PropTypes.func
+};

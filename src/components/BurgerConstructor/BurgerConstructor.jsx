@@ -7,6 +7,7 @@ import ElementFilling from '../BurgerElement/ElementFilling';
 import ElementBun from '../BurgerElement/ElementBun';
 import { addFilling, clearConstructor } from '../../services/slices/burgerConstructorSlice';
 import { sendBurger } from '../../services/slices/createdOrderSlise';
+import PropTypes from 'prop-types';
 
 function BurgerConstructor({ openModal }) {
   const dispatch = useDispatch();
@@ -76,3 +77,7 @@ function BurgerConstructor({ openModal }) {
 }
 
 export default BurgerConstructor;
+
+BurgerConstructor.propTypes = {
+  openModal: PropTypes.func
+};
