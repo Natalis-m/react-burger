@@ -19,7 +19,7 @@ function BurgerIngredient({ _id, drag, type, onClick, image, name, price }) {
       </span>
     );
   };
-  // console.log()
+
   return (
     <article
       id={_id}
@@ -30,7 +30,7 @@ function BurgerIngredient({ _id, drag, type, onClick, image, name, price }) {
       className={BurgerIngredientStyle.card + ' pl-4 mt-6'}
     >
       <img src={image} alt={name} className={BurgerIngredientStyle.img + ' pl-4 pr-4'} />
-      {/* {filling._id || bun._id ? renderCauntIngredient() : ''} */}
+
       {renderCauntIngredient()}
       <div className={BurgerIngredientStyle.info + ' pt-1 pb-1'}>
         <span className="text text_type_digits-default">{price}</span>
