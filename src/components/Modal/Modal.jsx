@@ -9,7 +9,7 @@ const Modal = ({ onClose, children }) => {
   useEffect(() => {
     function closeByEscape(evt) {
       if (evt.key === 'Escape') {
-        onClose(false);
+        onClose();
       }
     }
     document.addEventListener('keydown', closeByEscape);
@@ -19,12 +19,12 @@ const Modal = ({ onClose, children }) => {
   }, []);
 
   return createPortal(
-    <section className={modalStyle.modal} onClick={() => onClose(false)}>
+    <section className={modalStyle.modal} onClick={() => onClose()}>
       <div
         className={modalStyle.content + ' pt-10 pr-10 pb-10 pl-10'}
         onClick={e => e.stopPropagation()}
       >
-        <div className={modalStyle.closed} onClick={() => onClose(false)}>
+        <div className={modalStyle.closed} onClick={() => onClose()}>
           <CloseIcon type="primary" />
         </div>
         {children}
