@@ -50,7 +50,7 @@ function BurgerIngredients({ openModal }) {
   const navigation = () => {
     return arrData.map(i => {
       return (
-        <li key={uuidv4()}>
+        <li key={i.type}>
           <Tab value={i.type} active={current === i.type} onClick={handleTabClick}>
             {i.title}
           </Tab>
