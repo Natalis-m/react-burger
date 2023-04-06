@@ -22,12 +22,12 @@ function App() {
         </main>
       </DndProvider>
       {openModal.modalIngredient && (
-        <Modal onClose={setOpenModal}>
+        <Modal onClose={() => setOpenModal({ modalIngredient: false })}>
           <IngredientDetails />
         </Modal>
       )}
       {openModal.modalOrder && (
-        <Modal onClose={setOpenModal}>
+        <Modal onClose={() => setOpenModal({ modalOrder: false })}>
           <OrderDetails />
         </Modal>
       )}
