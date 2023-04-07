@@ -1,8 +1,16 @@
+import { useSelector } from 'react-redux';
 import img from '../../images/done.png';
+import Skeleton from './Skeleton';
+
 function OrderDetails() {
+  const orderNumber = useSelector(state => state.createdOrderReducer.order.number);
   return (
     <>
-      <div className="pt-20 pb-4 text text_type_digits-large">12378</div>
+      {orderNumber > 0 ? (
+        <div className="pt-20 pb-4 text text_type_digits-large">{orderNumber}</div>
+      ) : (
+        <Skeleton />
+      )}
       <h3 className="text text_type_main-medium pt-4 pb-3">Идентификатор заказа</h3>
       <img src={img} className="pt-15 pb-8" />
       <p>Ваш заказ начали готовить</p>
@@ -10,8 +18,6 @@ function OrderDetails() {
         Дождитесь готовности на орбитальной станции
       </p>
     </>
-
-    // </div>
   );
 }
 

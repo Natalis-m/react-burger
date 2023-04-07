@@ -16,3 +16,7 @@
   gap: 20px;
   width: 524px;
 }
+
+.title {
+  align-self: flex-start;
+}
