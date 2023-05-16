@@ -1,0 +1,45 @@
+.box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+}
+.navigate_block {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  /* max-width: 320px; */
+  /* text-align: end; */
+  align-items: flex-end;
+}
+
+.navigate {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  margin: 0px;
+  width: 320px;
+  padding-left: 0px;
+  list-style-type: none;
+}
+
+.li {
+  text-decoration: none;
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.li_active {
+  color: white;
+}
+
+.footnote {
+  max-width: 320px;
+  text-align: start;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
