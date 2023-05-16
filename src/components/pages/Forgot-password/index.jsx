@@ -30,13 +30,12 @@ function ForgotPassword() {
         />
         <Button onClick={onClick} htmlType="button" type="primary" size="medium" extraClass="ml-2">
           Восстановить
-          {/* <Link to="/reset-password">Восстановить</Link>*/}
         </Button>
       </div>
       <p className="text text_type_main-default text_color_inactive mb-4">
         Вспомнили пароль?{' '}
         <Link to="/login" className={Style.link}>
-          Войтигнор777гн
+          Войти
         </Link>
       </p>
     </section>
