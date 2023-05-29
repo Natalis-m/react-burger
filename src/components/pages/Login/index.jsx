@@ -1,15 +1,14 @@
-// страница авторизации, открывается из App
 import { Button, EmailInput, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Style from './LoginStyle.module.css';
-import { loginUser } from '../../../services/slices/userSlise';
+import { loginUser } from '../../../services/setUser/login';
 
 function Login() {
   const [user, setUser] = useState({ email: '', password: '' });
   const [eye, setEye] = useState(false);
-  const dispatch = useDispatch();
+  const isAuth = localStorage.getItem('user');
+  const navigate = useNavigate();
   const update = e => {
     setUser({
       ...user,
@@ -17,10 +16,11 @@ function Login() {
     });
   };
 
-  const auth = () => {
-    dispatch(loginUser(user.email, user.password));
-    console.log(user.email, user.password);
-  };
+  useEffect(() => {
+    if (isAuth) {
+      setTimeout(navigate('/', { replace: true }), 500);
+    }
+  }, [isAuth]);
 
   return (
     <section className={Style.content}>
@@ -38,7 +38,10 @@ function Login() {
           onIconClick={() => setEye(!eye)}
         />
         <Button
-          onClick={() => auth()}
+          onClick={() => {
+            loginUser(user);
+            navigate('/', { replace: true });
+          }}
           htmlType="button"
           type="primary"
           size="medium"

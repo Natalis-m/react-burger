@@ -1,32 +1,26 @@
-// страница регистрации вход со стр входа
-
-import {
-  Button,
-  Input,
-  EmailInput,
-  PasswordInput
-} from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { registerUser } from '../../../services/slices/userSlise';
+import { Button, Input, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { registerUser } from '../../../services/setUser/register';
 import Style from './RegisterStyle.module.css';
 
 function Register() {
   const [user, setUser] = useState({ name: '', email: '', password: '' });
   const [eye, setEye] = useState(false);
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuth = localStorage.getItem('user');
   const update = e => {
     setUser({
       ...user,
       [e.target.name]: e.target.value
     });
   };
+  useEffect(() => {
+    if (isAuth) {
+      setTimeout(navigate('/', { replace: true }), 500);
+    }
+  }, [isAuth]);
 
-  const auth = () => {
-    dispatch(registerUser(user.email, user.password, user.name));
-    console.log(user.email, user.password, user.name);
-  };
   return (
     <section className={Style.content}>
       <div className={Style.form}>
@@ -53,7 +47,7 @@ function Register() {
           onIconClick={() => setEye(!eye)}
         />
         <Button
-          onClick={() => auth()}
+          onClick={() => registerUser(user)}
           htmlType="button"
           type="primary"
           size="medium"

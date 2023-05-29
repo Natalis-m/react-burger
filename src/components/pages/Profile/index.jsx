@@ -1,11 +1,16 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { useState, useRef } from 'react';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import Style from './ProfileStyle.module.css';
+import { logout } from '../../../services/setUser/profile';
 
 function Profile() {
-  const [value, setValue] = useState('value');
+  const user = JSON.parse(localStorage.getItem('user'));
+  const [value, setValue] = useState('...');
   const inputRef = useRef(null);
+
+  console.log('/PROFILE');
+
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0);
     alert('Icon Click Callback');
@@ -27,7 +32,13 @@ function Profile() {
           <NavLink to="/profile/orders" className={styleLink}>
             История заказов
           </NavLink>
-          <NavLink to="/edit" className={styleLink}>
+          <NavLink
+            to="/"
+            onClick={() => {
+              logout();
+            }}
+            className={styleLink}
+          >
             Выход
           </NavLink>
         </ul>
@@ -41,7 +52,7 @@ function Profile() {
           placeholder={'Имя'}
           onChange={e => setValue(e.target.value)}
           icon={'EditIcon'}
-          value={value}
+          value={user.name}
           name={'name'}
           error={false}
           ref={inputRef}
@@ -55,8 +66,8 @@ function Profile() {
           placeholder={'Логин'}
           onChange={e => setValue(e.target.value)}
           icon={'EditIcon'}
-          value={value}
-          name={'name'}
+          value={user.email}
+          name={'email'}
           error={false}
           ref={inputRef}
           onIconClick={onIconClick}
@@ -70,7 +81,7 @@ function Profile() {
           onChange={e => setValue(e.target.value)}
           icon={'EditIcon'}
           value={value}
-          name={'name'}
+          name={'password'}
           error={false}
           ref={inputRef}
           onIconClick={onIconClick}

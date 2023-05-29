@@ -1,27 +1,33 @@
-// проверка наличия пользователя с экрана Войти
-import {
-  Button,
-  EmailInput,
-  PasswordInput
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import Style from './ForgotPasswordStyle.module.css';
+import { forgotPassword } from '../../../services/setUser/resetPassword';
 
 function ForgotPassword() {
-  const [value, setValue] = useState('');
+  const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+
+  const isAuth = localStorage.getItem('user');
+  useEffect(() => {
+    if (isAuth) {
+      setTimeout(navigate('/', { replace: true }), 500);
+    }
+  }, [isAuth]);
+
   const onClick = () => {
-    console.log({ value });
+    navigate('/reset-password');
+    forgotPassword(email);
   };
   return (
     <section className={Style.content}>
       <div className={Style.form}>
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <EmailInput
-          value={value}
+          value={email}
           onChange={e => {
-            setValue(e.target.value);
+            setEmail(e.target.value);
           }}
           name={'email'}
           placeholder="Укажите е-mail"
