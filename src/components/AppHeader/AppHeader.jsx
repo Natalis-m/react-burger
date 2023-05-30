@@ -19,7 +19,9 @@ function AppHeader() {
             </li>
             <li className={AppHeaderStyle.navigation__item + ' pb-4 pt-4 pr-5 pl-5'}>
               <ListIcon type="primary" />
-              <span className="text text_type_main-default pl-2">Лента заказов</span>
+              <span className="text text_type_main-default text_color_inactive pl-2">
+                Лента заказов
+              </span>
             </li>
           </ul>
         </nav>

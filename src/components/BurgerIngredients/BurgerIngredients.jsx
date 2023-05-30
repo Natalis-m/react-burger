@@ -11,14 +11,15 @@ import { useInView } from 'react-intersection-observer';
 import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
 
-function BurgerIngredients({ openModal }) {
+const BurgerIngredients = ({ openModal }) => {
   const skeletons = [...new Array(2)].map((_, index) => <Skeleton key={index} />);
   const { items, status } = useSelector(state => state.getIngredientsReducer);
   const [current, setCurrent] = useState('bun');
+  console.log('items', items);
 
   const dispatch = useDispatch();
 
-  function getIngredient(typeIngredient, dragType) {
+  const getIngredient = (typeIngredient, dragType) => {
     return items
       .filter(data => data.type === typeIngredient)
       .map(data => {
@@ -26,7 +27,6 @@ function BurgerIngredients({ openModal }) {
           <BurgerIngredient
             onClick={() => {
               dispatch(changeDetailsIngredient({ ...data }));
-
               openModal({ modalIngredient: true });
             }}
             drag={dragType}
@@ -36,10 +36,12 @@ function BurgerIngredients({ openModal }) {
           />
         );
       });
-  }
+  };
 
   useEffect(() => {
+    // if (items == []) {
     dispatch(fetchIngredients());
+    // }
   }, []);
 
   const handleTabClick = current => {
@@ -117,7 +119,7 @@ function BurgerIngredients({ openModal }) {
       </section>
     </section>
   );
-}
+};
 
 export const { setCount } = BurgerIngredients;
 
