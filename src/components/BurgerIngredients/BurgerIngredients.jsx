@@ -1,23 +1,21 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredients.module.css';
 import BurgerIngredient from '../BurgerIngredient/BurgerIngredient';
-import { changeDetailsIngredient } from '../../services/slices/currentIngredientSlice';
-import { fetchIngredients } from '../../services/slices/getIngredientsSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useState, useEffect, useMemo } from 'react';
 import Skeleton from '../BurgerIngredient/Skeleton';
 import { arrData } from '../../utils/ui';
 import { useInView } from 'react-intersection-observer';
-import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
 
 const BurgerIngredients = ({ openModal }) => {
-  const skeletons = [...new Array(2)].map((_, index) => <Skeleton key={index} />);
-  const { items, status } = useSelector(state => state.getIngredientsReducer);
+  const [refBun, inViewBuns] = useInView();
+  const [refMain, inViewMain] = useInView();
+  const [refSauce, inViewSauce] = useInView();
   const [current, setCurrent] = useState('bun');
-  console.log('items', items);
 
-  const dispatch = useDispatch();
+  const skeletons = [...new Array(2)].map((_, index) => <Skeleton key={index} />);
+  let { items, status } = useSelector(state => state.getIngredientsReducer);
 
   const getIngredient = (typeIngredient, dragType) => {
     return items
@@ -25,10 +23,7 @@ const BurgerIngredients = ({ openModal }) => {
       .map(data => {
         return (
           <BurgerIngredient
-            onClick={() => {
-              dispatch(changeDetailsIngredient({ ...data }));
-              openModal({ modalIngredient: true });
-            }}
+            openModal={openModal}
             drag={dragType}
             draggable={true}
             key={data._id}
@@ -37,12 +32,6 @@ const BurgerIngredients = ({ openModal }) => {
         );
       });
   };
-
-  useEffect(() => {
-    // if (items == []) {
-    dispatch(fetchIngredients());
-    // }
-  }, []);
 
   const handleTabClick = current => {
     setCurrent(current);
@@ -60,10 +49,6 @@ const BurgerIngredients = ({ openModal }) => {
       );
     });
   };
-
-  const [refBun, inViewBuns] = useInView();
-  const [refMain, inViewMain] = useInView();
-  const [refSauce, inViewSauce] = useInView();
 
   useEffect(() => {
     if (inViewBuns) {

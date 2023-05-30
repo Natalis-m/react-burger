@@ -9,8 +9,6 @@ function Profile() {
   const [value, setValue] = useState('...');
   const inputRef = useRef(null);
 
-  console.log('/PROFILE');
-
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0);
     alert('Icon Click Callback');

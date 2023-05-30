@@ -1,10 +1,11 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredient.module.css';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { changeDetailsIngredient } from '../../services/slices/currentIngredientSlice';
 import PropTypes from 'prop-types';
 
-function BurgerIngredient({ _id, drag, type, onClick, image, name, price }) {
+function BurgerIngredient({ _id, drag, openModal, type, image, name, price }) {
   const { filling, bun } = useSelector(state => state.burgerConstructorReducer);
   const [, dragRef] = useDrag({
     type: drag,
@@ -21,13 +22,20 @@ function BurgerIngredient({ _id, drag, type, onClick, image, name, price }) {
     );
   };
 
+  const dispatch = useDispatch();
+
+  const onClickIngredient = () => {
+    dispatch(changeDetailsIngredient(_id));
+    openModal({ modalIngredient: true });
+  };
+
   return (
     <article
       id={_id}
       ref={dragRef}
       draggable={true}
       type={type}
-      onClick={onClick}
+      onClick={onClickIngredient}
       className={BurgerIngredientStyle.card + ' pl-4 mt-6'}
     >
       <img src={image} alt={name} className={BurgerIngredientStyle.img + ' pl-4 pr-4'} />

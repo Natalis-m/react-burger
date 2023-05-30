@@ -6,20 +6,22 @@ import BurgerConstructorStyle from './BurgerConstructor.module.css';
 import ElementFilling from '../BurgerElement/ElementFilling';
 import ElementBun from '../BurgerElement/ElementBun';
 import { addFilling, clearConstructor } from '../../services/slices/burgerConstructorSlice';
-import { sendBurger } from '../../services/slices/createdOrderSlise';
+import { sendBurger } from '../../services/slices/createdOrderSlice';
 import PropTypes from 'prop-types';
 
 function BurgerConstructor({ openModal }) {
   const dispatch = useDispatch();
-
   const { filling, bun } = useSelector(state => state.burgerConstructorReducer);
+  const arrPriceIngredient = filling.map(ingredient => ingredient.price).concat(bun.price * 2);
+
+  const renderCard = useCallback((ingredient, i) => {
+    return <ElementFilling {...ingredient} key={ingredient.id} index={i} />;
+  }, []);
 
   const [{}, dropFilling] = useDrop({
     accept: 'filling',
     drop: item => dispatch(addFilling(item))
   });
-
-  const arrPriceIngredient = filling.map(ingredient => ingredient.price).concat(bun.price * 2);
 
   function priseBurger(arr) {
     let sum = 0;
@@ -28,10 +30,6 @@ function BurgerConstructor({ openModal }) {
     });
     return sum;
   }
-
-  const renderCard = useCallback((ingredient, i) => {
-    return <ElementFilling {...ingredient} key={ingredient.id} index={i} />;
-  }, []);
 
   const sendOrder = () => {
     let arrIngredientId = filling.map(i => i._id).concat(bun._id);

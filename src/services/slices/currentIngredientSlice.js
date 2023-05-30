@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = { details: {} };
+const initialState = { id: '' };
 
 const currentIngredientSlice = createSlice({
   name: 'currentIngredient',
   initialState,
   reducers: {
     changeDetailsIngredient(state, action) {
-      state.details = action.payload;
+      state.id = action.payload;
     }
   }
 });
