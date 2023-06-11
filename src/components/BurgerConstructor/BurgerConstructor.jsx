@@ -8,6 +8,7 @@ import ElementBun from '../BurgerElement/ElementBun';
 import { addFilling, clearConstructor } from '../../services/slices/burgerConstructorSlice';
 import { sendBurger } from '../../services/slices/createdOrderSlice';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 function BurgerConstructor({ openModal }) {
   const dispatch = useDispatch();
@@ -30,12 +31,25 @@ function BurgerConstructor({ openModal }) {
     });
     return sum;
   }
+  let isUserLoaded = useSelector(state => state.userReducer.user.name);
+  console.log('isUserLoaded?', isUserLoaded);
+
+  const navigate = useNavigate();
 
   const sendOrder = () => {
     let arrIngredientId = filling.map(i => i._id).concat(bun._id);
-    dispatch(sendBurger(arrIngredientId));
-    openModal({ modalOrder: true });
-    dispatch(clearConstructor());
+
+    if (isUserLoaded) {
+      if (bun.name === 'добавьте булку') {
+        alert('Добавьте булку');
+      } else {
+        dispatch(sendBurger(arrIngredientId));
+        openModal({ modalOrder: true });
+        dispatch(clearConstructor());
+      }
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -55,18 +69,7 @@ function BurgerConstructor({ openModal }) {
           <span className="text text_type_digits-medium">{priseBurger(arrPriceIngredient)}</span>
           <CurrencyIcon type="primary" />
         </div>
-        <Button
-          htmlType="button"
-          type="primary"
-          size="medium"
-          onClick={
-            bun.name === 'добавьте булку'
-              ? () => {
-                  alert('Добавьте булку');
-                }
-              : sendOrder
-          }
-        >
+        <Button htmlType="button" type="primary" size="medium" onClick={sendOrder}>
           Оформить заказ
         </Button>
       </div>
