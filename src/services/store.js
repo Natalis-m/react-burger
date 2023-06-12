@@ -3,13 +3,15 @@ import createdOrderReducer from './slices/createdOrderSlice';
 import currentIngredientReducer from './slices/currentIngredientSlice';
 import burgerConstructorReducer from './slices/burgerConstructorSlice';
 import getIngredientsReducer from './slices/getIngredientsSlice';
+import userReducer from './slices/userSlice';
 
 export const store = configureStore({
   reducer: {
     getIngredientsReducer,
     burgerConstructorReducer,
     createdOrderReducer,
-    currentIngredientReducer
+    currentIngredientReducer,
+    userReducer
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

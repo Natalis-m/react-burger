@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../../utils/api';
+import { writeUserData } from './ui';
 
 export const getUser = async () => {
   const { data } = await axios.get(`${BASE_URL}/auth/user`, {
@@ -13,10 +14,11 @@ export const getUser = async () => {
 export const updateToken = async () => {
   await axios
     .post(`${BASE_URL}/auth/token`, {
-      token: localStorage.getItem('refreshToken')
+      token: localStorage.getItem('token')
     })
-    .then(res => {
-      console.log(res);
+    .then(({ data }) => {
+      writeUserData(data);
+      console.log('RES', data);
     })
     .catch(err => {
       console.log(err);

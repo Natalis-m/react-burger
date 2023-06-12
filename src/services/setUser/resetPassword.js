@@ -12,4 +12,6 @@ export const resetPassword = async ({ password, token }) => {
     password: password,
     token: token
   });
+
+  // обработка не верно введенного кода
 };

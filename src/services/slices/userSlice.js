@@ -1,118 +1,138 @@
-// import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-// import { BASE_URL } from '../../utils/api';
-// import axios from 'axios';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { BASE_URL } from '../../utils/api';
+// import { writeUserData } from '../setUser/ui';
+import axios from 'axios';
 
-// const initialState = {
-//   isAuthenticated: false,
-//   user: {
-//     email: '',
-//     name: ''
-//   }
-// };
+const writeUserData = (state, action) => {
+  const timestemp = new Date().getTime() + 20 * 60 * 1000;
+  const tokenEndDate = new Date(timestemp);
 
-// const auth = (state, action) => {
-//   const timestemp = new Date().getTime() + 20 * 60 * 1000;
-//   const tokenEndDate = new Date(timestemp);
-//   console.log('TEST', tokenEndDate);
-//   // const token = { token: action.payload.accessToken, tokenEndDate: tokenEndDate };
-//   localStorage.setItem('token', JSON.stringify(action.payload.accessToken));
-//   localStorage.setItem('tokenEndDate', tokenEndDate);
-//   localStorage.setItem('refreshToken', action.payload.refreshToken);
-//   localStorage.setItem('user', JSON.stringify(action.payload.user));
+  state.user = action.payload.user;
+  state.isAuthenticated = true;
+  state.token = action.payload.accessToken;
 
-//   state.user.email = action.payload.user.email;
-//   state.user.name = action.payload.user.name;
-//   state.isAuthenticated = true;
+  localStorage.setItem('tokenEndDate', tokenEndDate);
+  localStorage.setItem('token', action.payload.refreshToken);
+};
 
-//   const time = new Date().getTime();
-//   console.log(time);
-// };
+export const registerUser = createAsyncThunk('registerUser/user', async user => {
+  // const { data } =
+  await axios
+    .post(`${BASE_URL}/auth/register`, {
+      email: user.email,
+      password: user.password,
+      name: user.name
+    })
+    // return data;
+    .then(({ data }) => {
+      return data;
+      // writeUserData(data);
+    })
+    .catch(res => {
+      res.response.data.message == 'User already exists'
+        ? alert('Такой пользователь уже существует')
+        : alert('Что-то пошло не так, повторите попытку позже');
+    });
+});
 
-// export const registerUser = createAsyncThunk('registerUser/user', async user => {
-//   await axios
-//     .post(`${BASE_URL}/auth/register`, {
-//       email: user.email,
-//       password: user.password,
-//       name: user.name
-//     })
-//     .then(({ data }) => {
-//       return data;
-//     })
-//     .catch(res => {
-//       res.response.data.message == 'User already exists'
-//         ? alert('Такой пользователь уже существует')
-//         : alert('Что-то пошло не так, повторите попытку позже');
-//     });
-// });
+export const loginUser = createAsyncThunk('loginUser/user', async user => {
+  // try {
+  const { data } = await axios.post(`${BASE_URL}/auth/login`, {
+    email: user.email,
+    password: user.password
+  });
+  // writeUserData(data);
+  // } catch (err) {
+  //   alert('Ошибка, проверьте введенные данные');
+  //   console.log('Error:', err);
+  // }
+  return data;
+});
 
-// export const loginUser = createAsyncThunk('loginUser/user', async user => {
-//   const { data } = await axios.post(`${BASE_URL}/auth/login`, {
-//     email: user.email,
-//     password: user.password
-//   });
-//   return data;
-// });
+export const getUser = createAsyncThunk('getUser/user', async token => {
+  const { data } = await axios.get(`${BASE_URL}/auth/user`, {
+    headers: {
+      Authorization: token
+    }
+  });
+  return data;
+  // localStorage.setItem('user', JSON.stringify(data.user));
+});
 
-// const userSlice = createSlice({
-//   name: 'user',
-//   initialState,
-//   reducers: {
-//     saveUserOnRender(state) {
-//       state.isAuthenticated = true;
-//       state.user = JSON.parse(localStorage.getItem('user'));
-//     }
-//   },
-//   extraReducers: {
-//     [registerUser.fulfilled]: (state, action) => {
-//       auth(state, action);
-//     },
-//     [loginUser.fulfilled]: (state, action) => {
-//       auth(state, action);
-//     },
-//     [loginUser.rejected]: (error, state) => {
-//       alert('Ошибка, проверьте введенные данные');
-//       console.log('Error:', error);
-//       console.log('?', state.user);
-//     }
-//   }
-// });
+export const updateToken = createAsyncThunk('updateToken/user', async (_, { dispatch }) => {
+  try {
+    const { data } = await axios.post(`${BASE_URL}/auth/token`, {
+      token: localStorage.getItem('token')
+    });
+    dispatch(getUser(data.accessToken));
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+});
 
-// export const { saveUserOnRender } = userSlice.actions;
-// export default userSlice.reducer;
+export const logout = createAsyncThunk('logout/user', async () => {
+  await axios
+    .post(`${BASE_URL}/auth/logout`, {
+      token: localStorage.getItem('token')
+    })
+    .then(
+      // localStorage.removeItem('user'),
+      localStorage.removeItem('token'),
+      // localStorage.removeItem('refreshToken'),
+      localStorage.removeItem('tokenEndDate')
+    );
+});
 
-// export const forgotPassword = createAsyncThunk('forgotPassword/user', async email => {
-//   const request = await axios.post(`${BASE_URL}/password-reset`, {
-//     email: email
-//   });
-// });
+export const forgotPassword = createAsyncThunk('forgotPassword/user', async email => {
+  await axios.post(`${BASE_URL}/password-reset`, {
+    email: email
+  });
+});
 
-// export const resetPassword = createAsyncThunk('resetPassword/user', async user => {
-//   const request = await axios.post(`${BASE_URL}/password-reset/reset`, {
-//     password: '',
-//     token: ''
-//   });
-// });
+export const resetPassword = createAsyncThunk('resetPassword/user', async ({ password, token }) => {
+  await axios.post(`${BASE_URL}/password-reset/reset`, {
+    password: password,
+    token: token
+  });
+});
 
-// // если не прошло 20 минут, то используем эту ф-цию для получения данных о пользователе,
-// // иначе обновить токен
-// export const updateUser = createAsyncThunk('updateUser/user', async () => {
-//   const res = await axios.get(`${BASE_URL}/auth/user`, {
-//     authorization: localStorage.getItem('token')
-//   });
-//   console.log('res', localStorage.getItem('token'));
-//   // return data;
-// });
+const userSlice = createSlice({
+  name: 'user',
+  initialState: {
+    isAuthenticated: false,
+    user: {
+      name: '',
+      email: ''
+    },
+    token: ''
+  },
+  extraReducers: {
+    [registerUser.fulfilled]: (state, action) => {
+      writeUserData(state, action);
+    },
+    [loginUser.fulfilled]: (state, action) => {
+      writeUserData(state, action);
+    },
+    [getUser.fulfilled]: (state, action) => {
+      state.user.email = action.payload.user.email;
+      state.user.name = action.payload.user.name;
+      // console.log('Пользователь получен', state);
+    },
+    [updateToken.fulfilled]: (state, action) => {
+      const timestemp = new Date().getTime() + 20 * 60 * 1000;
+      const tokenEndDate = new Date(timestemp);
 
-// export const logout = createAsyncThunk('logout/user', async () => {
-//   await axios
-//     .post(`${BASE_URL}/auth/logout`, {
-//       token: localStorage.getItem('refreshToken')
-//     })
-//     .then(
-//       localStorage.removeItem('user'),
-//       localStorage.removeItem('token'),
-//       localStorage.removeItem('refreshToken')
-//     );
+      state.isAuthenticated = true;
+      state.token = action.payload.accessToken;
+      localStorage.setItem('tokenEndDate', tokenEndDate);
+      localStorage.setItem('token', action.payload.refreshToken);
+    },
+    [logout.fulfilled]: (state, action) => {
+      state.user = null;
+      state.isAuthenticated = false;
+    }
+  }
+});
 
-//   // return data;
-// });
+export default userSlice.reducer;
