@@ -1,60 +1,72 @@
 import { Button, Input, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { registerUser } from '../../../services/setUser/register';
-import Style from './RegisterStyle.module.css';
+// import { registerUser } from '../../../services/setUser/register';
+import Style from '../form/formStyle.module.css';
+import { useForm } from '../../../hooks/useForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../../services/slices/userSlice';
 
 function Register() {
-  const [user, setUser] = useState({ name: '', email: '', password: '' });
+  // let user = useSelector(state => state.userReducer.user);
+
+  const { values, handleChange } = useForm({
+    name: '',
+    email: '',
+    password: ''
+  });
+
   const [eye, setEye] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isAuth = localStorage.getItem('user');
-  const update = e => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value
-    });
-  };
+
   useEffect(() => {
     if (isAuth) {
       setTimeout(navigate('/', { replace: true }), 500);
     }
   }, [isAuth]);
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    dispatch(registerUser(values));
+    // console.log('user', user);
+    // registerUser(values);
+    // navigate('/', { replace: true });
+
+    // dispatch(login(values.email, values.password));
+  };
+
   return (
     <section className={Style.content}>
       <div className={Style.form}>
         <h2 className="text text_type_main-medium">Регистрация</h2>
-        <Input
-          type={'text'}
-          placeholder={'Имя'}
-          onChange={update}
-          value={user.name}
-          name={'name'}
-          error={false}
-          size={'default'}
-          extraClass="ml-1"
-        />
-        <EmailInput onChange={update} value={user.email} name={'email'} icon={false} />
-        <Input
-          onChange={update}
-          value={user.password}
-          name={'password'}
-          placeholder="Пароль"
-          icon={eye ? 'ShowIcon' : 'HideIcon'}
-          extraClass="mb-2"
-          type={eye ? 'text' : 'password'}
-          onIconClick={() => setEye(!eye)}
-        />
-        <Button
-          onClick={() => registerUser(user)}
-          htmlType="button"
-          type="primary"
-          size="medium"
-          extraClass="ml-2"
-        >
-          Зарегистрированться
-        </Button>
+        <form className={Style.formBody} onSubmit={handleSubmit}>
+          <Input
+            type={'text'}
+            placeholder={'Имя'}
+            onChange={handleChange}
+            value={values.name}
+            name={'name'}
+            error={false}
+            size={'default'}
+            extraClass="ml-1"
+          />
+          <EmailInput onChange={handleChange} value={values.email} name={'email'} icon={false} />
+          <Input
+            onChange={handleChange}
+            value={values.password}
+            name={'password'}
+            placeholder="Пароль"
+            icon={eye ? 'ShowIcon' : 'HideIcon'}
+            extraClass="mb-2"
+            type={eye ? 'text' : 'password'}
+            onIconClick={() => setEye(!eye)}
+          />
+          <Button htmlType="submit" type="primary" size="medium" extraClass="ml-2">
+            Зарегистрированться
+          </Button>
+        </form>
       </div>
       <p className="text text_type_main-default text_color_inactive mb-4">
         Уже зарегистрированы?{' '}

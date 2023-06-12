@@ -43,3 +43,16 @@
   flex-direction: column;
   gap: 24px;
 }
+
+.profileBtn {
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+}
+
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
