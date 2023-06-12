@@ -1,13 +1,16 @@
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import Style from './ForgotPasswordStyle.module.css';
+import Style from '../form/formStyle.module.css';
 import { forgotPassword } from '../../../services/setUser/resetPassword';
+import { useForm } from '../../../hooks/useForm';
 
 function ForgotPassword() {
-  const [email, setEmail] = useState('');
+  const { values, handleChange } = useForm({
+    email: ''
+  });
   const navigate = useNavigate();
+  const location = useLocation();
 
   const isAuth = localStorage.getItem('user');
   useEffect(() => {
@@ -16,27 +19,35 @@ function ForgotPassword() {
     }
   }, [isAuth]);
 
-  const onClick = () => {
+  const handleSubmit = () => {
     navigate('/reset-password');
-    forgotPassword(email);
+    forgotPassword(values);
   };
+
   return (
     <section className={Style.content}>
       <div className={Style.form}>
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
-        <EmailInput
-          value={email}
-          onChange={e => {
-            setEmail(e.target.value);
-          }}
-          name={'email'}
-          placeholder="Укажите е-mail"
-          isIcon={false}
-          extraClass="mb-2"
-        />
-        <Button onClick={onClick} htmlType="button" type="primary" size="medium" extraClass="ml-2">
-          Восстановить
-        </Button>
+        <form className={Style.formBody} onSubmit={handleSubmit}>
+          <EmailInput
+            value={values.email}
+            onChange={handleChange}
+            name={'email'}
+            placeholder="Укажите е-mail"
+            isIcon={false}
+            extraClass="mb-2"
+          />
+          <Link
+            to={{
+              pathname: '/reset-password'
+            }}
+            state={{ arrivalPoint: location }}
+          >
+            <Button htmlType="submit" type="primary" size="medium" extraClass="ml-2">
+              Восстановить
+            </Button>
+          </Link>
+        </form>
       </div>
       <p className="text text_type_main-default text_color_inactive mb-4">
         Вспомнили пароль?{' '}

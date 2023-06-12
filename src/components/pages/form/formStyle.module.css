@@ -13,3 +13,10 @@
   gap: 24px;
   margin-bottom: 80px;
 }
+
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
