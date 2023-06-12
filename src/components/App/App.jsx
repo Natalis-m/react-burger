@@ -9,7 +9,6 @@ import ForgotPassword from '../pages/Forgot-password';
 import NotFound from '../pages/NotFound';
 import Profile from '../pages/Profile';
 import ProtectedRoute from '../ProtectedRoute';
-// import { updateToken } from '../../services/setUser/profile';
 import { getUser, updateToken } from '../../services/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PageIngredient from '../pages/PageIngredient/PageIngredient';
@@ -22,47 +21,25 @@ function App() {
   const background = location.state && location.state.background;
   const arrivalPoint = location.state && location.state.arrivalPoint;
 
-  //добавление актуальной инф о пользователе при перезагрузке страницы
   let isToken = localStorage.getItem('token');
-
-  useEffect(() => {
-    if (isToken) {
-      dispatch(updateToken());
-      // dispatch(getUser(state.token));
-    }
-  }, []);
-
   let state = useSelector(state => state.userReducer);
-
-  if (isProfile && state.user) {
-    const tokenEndDate = new Date(localStorage.getItem('tokenEndDate'));
-    const newDate = new Date();
-    const isTokenEnded = newDate.getTime() >= tokenEndDate.getTime();
-
-    if (isTokenEnded && isToken) {
-      dispatch(updateToken());
-      // dispatch(getUser(state.token));
-    } else {
-      // dispatch(getUser(state.token));
-    }
-  }
-
-  // function tokenExpirationDateCheck() {
-  //   const tokenEndDate = new Date(localStorage.getItem('tokenEndDate'));
-  //   const newDate = new Date();
-  //   const isTokenEnded = newDate.getTime() >= tokenEndDate.getTime();
-  //   // let token = useSelector(state => state.userReducer);
-
-  //   if (isTokenEnded) {
-  //     dispatch(updateToken());
-  //     dispatch(getUser());
-  //   } else {
-  //     dispatch(getUser());
-  //   }
-  // }
 
   useEffect(() => {
     dispatch(fetchIngredients());
+
+    if (isToken) {
+      dispatch(updateToken());
+    }
+
+    if (isProfile && state.user) {
+      const tokenEndDate = new Date(localStorage.getItem('tokenEndDate'));
+      const newDate = new Date();
+      const isTokenEnded = newDate.getTime() >= tokenEndDate.getTime();
+
+      if (isTokenEnded && isToken) {
+        dispatch(updateToken());
+      }
+    }
   }, []);
 
   return (

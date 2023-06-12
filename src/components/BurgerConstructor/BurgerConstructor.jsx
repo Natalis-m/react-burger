@@ -31,7 +31,7 @@ function BurgerConstructor({ openModal }) {
     });
     return sum;
   }
-  let isUserLoaded = useSelector(state => state.userReducer.user.name);
+  let isUserLoaded = useSelector(state => state.userReducer);
   console.log('isUserLoaded?', isUserLoaded);
 
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ function BurgerConstructor({ openModal }) {
   const sendOrder = () => {
     let arrIngredientId = filling.map(i => i._id).concat(bun._id);
 
-    if (isUserLoaded) {
+    if (isUserLoaded.user.name) {
       if (bun.name === 'добавьте булку') {
         alert('Добавьте булку');
       } else {

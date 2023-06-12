@@ -2,21 +2,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Style from './ProfileStyle.module.css';
-// import { logout } from '../../../services/setUser/profile';
-import { logout } from '../../../services/slices/userSlice';
+import { logout, updateUser } from '../../../services/slices/userSlice';
 import { useForm } from '../../../hooks/useForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../../services/slices/userSlice';
 
 function Profile() {
-  const inputRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
-    alert('Изменяем поле');
-  };
 
   const styleLink = ({ isActive }) => {
     return isActive
@@ -34,16 +26,12 @@ function Profile() {
 
   let state = useSelector(state => state.userReducer);
 
-  // useEffect(() => {
-  //   dispatch(getUser(state.token));
-  // }, []);
-
   useEffect(() => {
     setValues({
       name: state.user.name,
       email: state.user.email
     });
-  }, [state]);
+  }, [state.user]);
 
   const handleLogoutClick = e => {
     e.preventDefault();
@@ -51,22 +39,22 @@ function Profile() {
     navigate('/');
   };
 
-  // const handleSubmit = e => {
-  //   e.preventDefault();
-  // };
+  const handleSubmit = e => {
+    e.preventDefault();
+    dispatch(updateUser(values.name, values.email, values.password));
+  };
 
   const handleCancelChanges = e => {
     e.preventDefault();
-    // setValues({
-    //   ...values,
-    //   name: userName,
-    //   email: userLogin,
-    //   password: ''
-    // });
-    // setDataChanged(false);
+    setValues({
+      ...values,
+      name: state.user.name,
+      email: state.user.email,
+      password: ''
+    });
+    setDataChanged(false);
   };
 
-  // if (state.user) {
   return (
     <section className={Style.box + ' mt-30'}>
       <div className={Style.navigate_block}>
@@ -86,10 +74,7 @@ function Profile() {
         </p>
       </div>
       <div className={Style.inputs}>
-        <form
-          className={Style.formBody}
-          // onSubmit={handleSubmit}
-        >
+        <form className={Style.formBody} onSubmit={handleSubmit}>
           <Input
             type={'text'}
             placeholder={'Имя'}
@@ -98,11 +83,9 @@ function Profile() {
               handleChange(e);
             }}
             icon={'EditIcon'}
-            value={values.name}
+            value={values?.name}
             name={'name'}
             error={false}
-            ref={inputRef}
-            onIconClick={onIconClick}
             errorText={'Ошибка'}
             size={'default'}
             extraClass="ml-1"
@@ -115,11 +98,9 @@ function Profile() {
               handleChange(e);
             }}
             icon={'EditIcon'}
-            value={values.email}
+            value={values?.email}
             name={'email'}
             error={false}
-            ref={inputRef}
-            onIconClick={onIconClick}
             errorText={'Ошибка'}
             size={'default'}
             extraClass="ml-1"
@@ -132,16 +113,14 @@ function Profile() {
               handleChange(e);
             }}
             icon={'EditIcon'}
-            value={values.password}
+            value={values.password ?? ''}
             name={'password'}
             error={false}
-            ref={inputRef}
-            onIconClick={onIconClick}
             errorText={'Ошибка'}
             size={'default'}
             extraClass="ml-1"
           />
-          {/* {dataChanged && (
+          {dataChanged && (
             <div className={Style.profileBtn}>
               <Button type="primary" onClick={handleCancelChanges}>
                 Отмена
@@ -150,12 +129,11 @@ function Profile() {
                 Сохранить
               </Button>
             </div>
-          )} */}
+          )}
         </form>
       </div>
     </section>
   );
 }
-// }
 
 export default Profile;

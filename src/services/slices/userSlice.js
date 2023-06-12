@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BASE_URL } from '../../utils/api';
-// import { writeUserData } from '../setUser/ui';
 import axios from 'axios';
 
 const writeUserData = (state, action) => {
@@ -16,17 +15,14 @@ const writeUserData = (state, action) => {
 };
 
 export const registerUser = createAsyncThunk('registerUser/user', async user => {
-  // const { data } =
   await axios
     .post(`${BASE_URL}/auth/register`, {
       email: user.email,
       password: user.password,
       name: user.name
     })
-    // return data;
     .then(({ data }) => {
       return data;
-      // writeUserData(data);
     })
     .catch(res => {
       res.response.data.message == 'User already exists'
@@ -41,11 +37,6 @@ export const loginUser = createAsyncThunk('loginUser/user', async user => {
     email: user.email,
     password: user.password
   });
-  // writeUserData(data);
-  // } catch (err) {
-  //   alert('Ошибка, проверьте введенные данные');
-  //   console.log('Error:', err);
-  // }
   return data;
 });
 
@@ -56,7 +47,6 @@ export const getUser = createAsyncThunk('getUser/user', async token => {
     }
   });
   return data;
-  // localStorage.setItem('user', JSON.stringify(data.user));
 });
 
 export const updateToken = createAsyncThunk('updateToken/user', async (_, { dispatch }) => {
@@ -71,17 +61,29 @@ export const updateToken = createAsyncThunk('updateToken/user', async (_, { disp
   }
 });
 
+export const updateUser = createAsyncThunk('updateUser/user', async ({ name, email, password }) => {
+  try {
+    const { data } = await axios.patch(`${BASE_URL}/auth/user`, {
+      headers: {
+        Authorization: {
+          name: name,
+          email: email,
+          password: password
+        }
+      }
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 export const logout = createAsyncThunk('logout/user', async () => {
   await axios
     .post(`${BASE_URL}/auth/logout`, {
       token: localStorage.getItem('token')
     })
-    .then(
-      // localStorage.removeItem('user'),
-      localStorage.removeItem('token'),
-      // localStorage.removeItem('refreshToken'),
-      localStorage.removeItem('tokenEndDate')
-    );
+    .then(localStorage.removeItem('token'), localStorage.removeItem('tokenEndDate'));
 });
 
 export const forgotPassword = createAsyncThunk('forgotPassword/user', async email => {
@@ -117,7 +119,6 @@ const userSlice = createSlice({
     [getUser.fulfilled]: (state, action) => {
       state.user.email = action.payload.user.email;
       state.user.name = action.payload.user.name;
-      // console.log('Пользователь получен', state);
     },
     [updateToken.fulfilled]: (state, action) => {
       const timestemp = new Date().getTime() + 20 * 60 * 1000;
@@ -129,7 +130,7 @@ const userSlice = createSlice({
       localStorage.setItem('token', action.payload.refreshToken);
     },
     [logout.fulfilled]: (state, action) => {
-      state.user = null;
+      state.user = { name: '', email: '' };
       state.isAuthenticated = false;
     }
   }
