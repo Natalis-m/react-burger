@@ -6,20 +6,23 @@ import BurgerConstructorStyle from './BurgerConstructor.module.css';
 import ElementFilling from '../BurgerElement/ElementFilling';
 import ElementBun from '../BurgerElement/ElementBun';
 import { addFilling, clearConstructor } from '../../services/slices/burgerConstructorSlice';
-import { sendBurger } from '../../services/slices/createdOrderSlise';
+import { sendBurger } from '../../services/slices/createdOrderSlice';
 import PropTypes from 'prop-types';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function BurgerConstructor({ openModal }) {
   const dispatch = useDispatch();
-
   const { filling, bun } = useSelector(state => state.burgerConstructorReducer);
+  const arrPriceIngredient = filling.map(ingredient => ingredient.price).concat(bun.price * 2);
+
+  const renderCard = useCallback((ingredient, i) => {
+    return <ElementFilling {...ingredient} key={ingredient.id} index={i} />;
+  }, []);
 
   const [{}, dropFilling] = useDrop({
     accept: 'filling',
     drop: item => dispatch(addFilling(item))
   });
-
-  const arrPriceIngredient = filling.map(ingredient => ingredient.price).concat(bun.price * 2);
 
   function priseBurger(arr) {
     let sum = 0;
@@ -28,16 +31,25 @@ function BurgerConstructor({ openModal }) {
     });
     return sum;
   }
+  const isUserLoaded = useSelector(state => state.userReducer);
 
-  const renderCard = useCallback((ingredient, i) => {
-    return <ElementFilling {...ingredient} key={ingredient.id} index={i} />;
-  }, []);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const sendOrder = () => {
-    let arrIngredientId = filling.map(i => i._id).concat(bun._id);
-    dispatch(sendBurger(arrIngredientId));
-    openModal({ modalOrder: true });
-    dispatch(clearConstructor());
+    const arrIngredientId = filling.map(i => i._id).concat(bun._id);
+
+    if (isUserLoaded.user.name) {
+      if (bun.name === 'добавьте булку') {
+        alert('Добавьте булку');
+      } else {
+        dispatch(sendBurger(arrIngredientId));
+        openModal({ modalOrder: true });
+        dispatch(clearConstructor());
+      }
+    } else {
+      navigate('/login', { state: { from: location } });
+    }
   };
 
   return (
@@ -57,18 +69,7 @@ function BurgerConstructor({ openModal }) {
           <span className="text text_type_digits-medium">{priseBurger(arrPriceIngredient)}</span>
           <CurrencyIcon type="primary" />
         </div>
-        <Button
-          htmlType="button"
-          type="primary"
-          size="medium"
-          onClick={
-            bun.name === 'добавьте булку'
-              ? () => {
-                  alert('Добавьте булку');
-                }
-              : sendOrder
-          }
-        >
+        <Button htmlType="button" type="primary" size="medium" onClick={sendOrder}>
           Оформить заказ
         </Button>
       </div>

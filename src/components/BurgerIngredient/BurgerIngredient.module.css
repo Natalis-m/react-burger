@@ -6,6 +6,8 @@
   justify-content: start;
   align-items: center;
   position: relative;
+  text-decoration: none;
+  color: #f2f2f3;
 }
 
 .calculator {
@@ -25,6 +27,8 @@
   display: flex;
   gap: 9px;
   text-align: center;
+  color: #f2f2f3;
+  text-decoration: none;
 }
 
 .img {

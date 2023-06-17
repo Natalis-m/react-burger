@@ -1,46 +1,41 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredients.module.css';
 import BurgerIngredient from '../BurgerIngredient/BurgerIngredient';
-import { changeDetailsIngredient } from '../../services/slices/currentIngredientSlice';
-import { fetchIngredients } from '../../services/slices/getIngredientsSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import Skeleton from '../BurgerIngredient/Skeleton';
 import { arrData } from '../../utils/ui';
 import { useInView } from 'react-intersection-observer';
-import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
+import { useLocation, Link } from 'react-router-dom';
 
-function BurgerIngredients({ openModal }) {
-  const skeletons = [...new Array(2)].map((_, index) => <Skeleton key={index} />);
-  const { items, status } = useSelector(state => state.getIngredientsReducer);
+const BurgerIngredients = () => {
+  const location = useLocation();
+  const [refBun, inViewBuns] = useInView();
+  const [refMain, inViewMain] = useInView();
+  const [refSauce, inViewSauce] = useInView();
   const [current, setCurrent] = useState('bun');
 
-  const dispatch = useDispatch();
+  const skeletons = [...new Array(2)].map((_, index) => <Skeleton key={index} />);
+  const { items, status } = useSelector(state => state.getIngredientsReducer);
 
-  function getIngredient(typeIngredient, dragType) {
+  const getIngredient = (typeIngredient, dragType) => {
     return items
       .filter(data => data.type === typeIngredient)
       .map(data => {
         return (
-          <BurgerIngredient
-            onClick={() => {
-              dispatch(changeDetailsIngredient({ ...data }));
-
-              openModal({ modalIngredient: true });
-            }}
-            drag={dragType}
-            draggable={true}
+          <Link
             key={data._id}
-            {...data}
-          />
+            to={{
+              pathname: `/ingredients/${data._id}`
+            }}
+            state={{ background: location }}
+          >
+            <BurgerIngredient drag={dragType} draggable={true} key={data._id} {...data} />
+          </Link>
         );
       });
-  }
-
-  useEffect(() => {
-    dispatch(fetchIngredients());
-  }, []);
+  };
 
   const handleTabClick = current => {
     setCurrent(current);
@@ -58,10 +53,6 @@ function BurgerIngredients({ openModal }) {
       );
     });
   };
-
-  const [refBun, inViewBuns] = useInView();
-  const [refMain, inViewMain] = useInView();
-  const [refSauce, inViewSauce] = useInView();
 
   useEffect(() => {
     if (inViewBuns) {
@@ -117,7 +108,7 @@ function BurgerIngredients({ openModal }) {
       </section>
     </section>
   );
-}
+};
 
 export const { setCount } = BurgerIngredients;
 

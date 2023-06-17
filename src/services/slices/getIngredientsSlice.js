@@ -4,6 +4,7 @@ import axios from 'axios';
 
 export const fetchIngredients = createAsyncThunk('ingredients/fetchIngredients', async () => {
   const { data } = await axios.get(`${BASE_URL}/ingredients`);
+
   return data;
 });
 
@@ -19,7 +20,6 @@ const getIngredientsSlice = createSlice({
   extraReducers: {
     [fetchIngredients.pending]: state => {
       state.status = 'loading';
-      state.items = [];
     },
     [fetchIngredients.fulfilled]: (state, action) => {
       const { data } = action.payload;

@@ -17,7 +17,7 @@ const initialState = {
   success: true
 };
 
-const createdOrderSlise = createSlice({
+const createdOrderSlice = createSlice({
   name: 'createdOrder',
   initialState,
   reducers: {},
@@ -34,4 +34,4 @@ const createdOrderSlise = createSlice({
   }
 });
 
-export default createdOrderSlise.reducer;
+export default createdOrderSlice.reducer;

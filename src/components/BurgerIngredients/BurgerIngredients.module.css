@@ -1,6 +1,7 @@
 .box {
   overflow: hidden;
   text-align: left;
+  text-decoration: none;
 }
 
 .ingredients {

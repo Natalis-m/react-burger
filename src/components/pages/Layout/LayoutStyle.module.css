@@ -7,9 +7,5 @@
 }
 
 .main {
-  display: grid;
-  grid-template: 1fr / repeat(2, 600px);
-  gap: 40px;
   background-color: #131316;
-  height: 100%;
 }

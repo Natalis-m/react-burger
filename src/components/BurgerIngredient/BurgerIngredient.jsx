@@ -4,7 +4,7 @@ import { useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-function BurgerIngredient({ _id, drag, type, onClick, image, name, price }) {
+function BurgerIngredient({ _id, drag, type, image, name, price }) {
   const { filling, bun } = useSelector(state => state.burgerConstructorReducer);
   const [, dragRef] = useDrag({
     type: drag,
@@ -27,7 +27,6 @@ function BurgerIngredient({ _id, drag, type, onClick, image, name, price }) {
       ref={dragRef}
       draggable={true}
       type={type}
-      onClick={onClick}
       className={BurgerIngredientStyle.card + ' pl-4 mt-6'}
     >
       <img src={image} alt={name} className={BurgerIngredientStyle.img + ' pl-4 pr-4'} />
