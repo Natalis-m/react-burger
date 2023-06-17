@@ -1,18 +1,19 @@
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Style from '../form/formStyle.module.css';
-import { forgotPassword } from '../../../services/setUser/resetPassword';
+import { forgotPassword } from '../../../services/slices/userSlice';
 import { useForm } from '../../../hooks/useForm';
+import { useDispatch } from 'react-redux';
 
 function ForgotPassword() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isAuth = localStorage.getItem('user');
   const { values, handleChange } = useForm({
     email: ''
   });
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  const isAuth = localStorage.getItem('user');
   useEffect(() => {
     if (isAuth) {
       setTimeout(navigate('/', { replace: true }), 500);
@@ -20,8 +21,8 @@ function ForgotPassword() {
   }, [isAuth]);
 
   const handleSubmit = () => {
-    navigate('/reset-password');
-    forgotPassword(values);
+    navigate('/reset-password', { state: 'forgotPassword' });
+    dispatch(forgotPassword(values));
   };
 
   return (
@@ -37,21 +38,14 @@ function ForgotPassword() {
             isIcon={false}
             extraClass="mb-2"
           />
-          <Link
-            to={{
-              pathname: '/reset-password'
-            }}
-            state={{ arrivalPoint: location }}
-          >
-            <Button htmlType="submit" type="primary" size="medium" extraClass="ml-2">
-              Восстановить
-            </Button>
-          </Link>
+          <Button htmlType="submit" type="primary" size="medium" extraClass="ml-2">
+            Восстановить
+          </Button>
         </form>
       </div>
       <p className="text text_type_main-default text_color_inactive mb-4">
         Вспомнили пароль?{' '}
-        <Link to="/login" className={Style.link}>
+        <Link to="/login" className={Style.link} state={{ from: { pathname: '/' } }}>
           Войти
         </Link>
       </p>

@@ -13,8 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function Home() {
   const navigate = useNavigate();
-  let location = useLocation();
-  let { id } = useParams();
+  const location = useLocation();
+  const { id } = useParams();
   const background = location.state && location.state.background;
 
   const [openModal, setOpenModal] = useState({ modalIngredient: false, modalOrder: false });

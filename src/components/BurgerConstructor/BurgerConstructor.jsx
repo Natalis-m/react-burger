@@ -8,7 +8,7 @@ import ElementBun from '../BurgerElement/ElementBun';
 import { addFilling, clearConstructor } from '../../services/slices/burgerConstructorSlice';
 import { sendBurger } from '../../services/slices/createdOrderSlice';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function BurgerConstructor({ openModal }) {
   const dispatch = useDispatch();
@@ -31,13 +31,13 @@ function BurgerConstructor({ openModal }) {
     });
     return sum;
   }
-  let isUserLoaded = useSelector(state => state.userReducer);
-  console.log('isUserLoaded?', isUserLoaded);
+  const isUserLoaded = useSelector(state => state.userReducer);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const sendOrder = () => {
-    let arrIngredientId = filling.map(i => i._id).concat(bun._id);
+    const arrIngredientId = filling.map(i => i._id).concat(bun._id);
 
     if (isUserLoaded.user.name) {
       if (bun.name === 'добавьте булку') {
@@ -48,7 +48,7 @@ function BurgerConstructor({ openModal }) {
         dispatch(clearConstructor());
       }
     } else {
-      navigate('/login');
+      navigate('/login', { state: { from: location } });
     }
   };
 

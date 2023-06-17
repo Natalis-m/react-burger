@@ -9,37 +9,30 @@ import ForgotPassword from '../pages/Forgot-password';
 import NotFound from '../pages/NotFound';
 import Profile from '../pages/Profile';
 import ProtectedRoute from '../ProtectedRoute';
-import { getUser, updateToken } from '../../services/slices/userSlice';
+import { forgotPassword, updateToken } from '../../services/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import PageIngredient from '../pages/PageIngredient/PageIngredient';
 import { fetchIngredients } from '../../services/slices/getIngredientsSlice';
 
 function App() {
-  const location = useLocation();
   const dispatch = useDispatch();
-  const isProfile = location.pathname === '/profile';
+  const location = useLocation();
   const background = location.state && location.state.background;
-  const arrivalPoint = location.state && location.state.arrivalPoint;
+  const arrivalPoint = location.state === 'forgotPassword';
 
-  let isToken = localStorage.getItem('token');
-  let state = useSelector(state => state.userReducer);
+  const isRefreshToken = localStorage.getItem('refreshToken');
+  const state = useSelector(state => state.userReducer);
+
+  const accessTokenEndDate = new Date(localStorage.getItem('accessTokenEndDate'));
+  const newDate = new Date();
+  const isAccessTokenExpires = newDate.getTime() >= accessTokenEndDate.getTime();
+
+  if (isRefreshToken && (isAccessTokenExpires || !state.accessToken)) {
+    dispatch(updateToken());
+  }
 
   useEffect(() => {
     dispatch(fetchIngredients());
-
-    if (isToken) {
-      dispatch(updateToken());
-    }
-
-    if (isProfile && state.user) {
-      const tokenEndDate = new Date(localStorage.getItem('tokenEndDate'));
-      const newDate = new Date();
-      const isTokenEnded = newDate.getTime() >= tokenEndDate.getTime();
-
-      if (isTokenEnded && isToken) {
-        dispatch(updateToken());
-      }
-    }
   }, []);
 
   return (

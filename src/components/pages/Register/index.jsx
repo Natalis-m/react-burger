@@ -1,15 +1,12 @@
 import { Button, Input, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// import { registerUser } from '../../../services/setUser/register';
 import Style from '../form/formStyle.module.css';
 import { useForm } from '../../../hooks/useForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../../services/slices/userSlice';
 
 function Register() {
-  // let user = useSelector(state => state.userReducer.user);
-
   const { values, handleChange } = useForm({
     name: '',
     email: '',
@@ -30,11 +27,6 @@ function Register() {
   const handleSubmit = e => {
     e.preventDefault();
     dispatch(registerUser(values));
-    // console.log('user', user);
-    // registerUser(values);
-    // navigate('/', { replace: true });
-
-    // dispatch(login(values.email, values.password));
   };
 
   return (

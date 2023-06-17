@@ -1,18 +1,22 @@
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
 import Style from '../form/formStyle.module.css';
-import { resetPassword } from '../../../services/setUser/resetPassword';
-import { Link, useNavigate } from 'react-router-dom';
+import { resetPassword } from '../../../services/slices/userSlice';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from '../../../hooks/useForm';
+import { useDispatch } from 'react-redux';
 
 function ResetPassword() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isAuth = localStorage.getItem('user');
+  const dispatch = useDispatch();
+
   const [eye, setEye] = useState(false);
   const { values, handleChange } = useForm({
     token: '',
     password: ''
   });
-  const navigate = useNavigate();
-  const isAuth = localStorage.getItem('user');
 
   useEffect(() => {
     if (isAuth) {
@@ -22,8 +26,8 @@ function ResetPassword() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    resetPassword(values);
-    navigate('/login');
+    dispatch(resetPassword(values));
+    navigate('/login', { from: location });
   };
 
   return (

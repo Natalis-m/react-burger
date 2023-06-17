@@ -24,7 +24,7 @@ function Profile() {
 
   const [dataChanged, setDataChanged] = useState(false);
 
-  let state = useSelector(state => state.userReducer);
+  const state = useSelector(state => state.userReducer);
 
   useEffect(() => {
     setValues({

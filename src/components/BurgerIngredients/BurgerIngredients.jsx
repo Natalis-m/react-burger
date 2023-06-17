@@ -17,7 +17,7 @@ const BurgerIngredients = () => {
   const [current, setCurrent] = useState('bun');
 
   const skeletons = [...new Array(2)].map((_, index) => <Skeleton key={index} />);
-  let { items, status } = useSelector(state => state.getIngredientsReducer);
+  const { items, status } = useSelector(state => state.getIngredientsReducer);
 
   const getIngredient = (typeIngredient, dragType) => {
     return items

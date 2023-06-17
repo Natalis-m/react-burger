@@ -2,10 +2,10 @@ import { Button, EmailInput, Input } from '@ya.praktikum/react-developer-burger-
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Style from '../form/formStyle.module.css';
-// import { loginUser } from '../../../services/setUser/login';
 import { loginUser } from '../../../services/slices/userSlice';
 import { useForm } from '../../../hooks/useForm';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 function Login() {
   const { values, handleChange } = useForm({
@@ -14,24 +14,23 @@ function Login() {
   });
 
   const [eye, setEye] = useState(false);
-  const isAuth = localStorage.getItem('user');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
     dispatch(loginUser(values));
-    // loginUser(values);
-    navigate('/', { replace: true });
-
-    // dispatch(login(values.email, values.password));
   };
 
+  const location = useLocation();
+  const from = location.state && location.state.from;
+  const isUserLoggedIn = useSelector(state => state.userReducer.accessToken);
+
   useEffect(() => {
-    if (isAuth) {
-      setTimeout(navigate('/', { replace: true }), 500);
+    if (from && isUserLoggedIn) {
+      navigate(from.pathname);
     }
-  }, [isAuth]);
+  }, [isUserLoggedIn, from]);
 
   return (
     <section className={Style.content}>

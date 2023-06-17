@@ -2,16 +2,21 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BASE_URL } from '../../utils/api';
 import axios from 'axios';
 
-const writeUserData = (state, action) => {
+const getAccessTokenEndDate = () => {
   const timestemp = new Date().getTime() + 20 * 60 * 1000;
-  const tokenEndDate = new Date(timestemp);
+
+  return new Date(timestemp);
+};
+
+const writeUserData = (state, action) => {
+  const accessTokenEndDate = getAccessTokenEndDate();
 
   state.user = action.payload.user;
   state.isAuthenticated = true;
-  state.token = action.payload.accessToken;
+  state.accessToken = action.payload.accessToken;
 
-  localStorage.setItem('tokenEndDate', tokenEndDate);
-  localStorage.setItem('token', action.payload.refreshToken);
+  localStorage.setItem('accessTokenEndDate', accessTokenEndDate);
+  localStorage.setItem('refreshToken', action.payload.refreshToken);
 };
 
 export const registerUser = createAsyncThunk('registerUser/user', async user => {
@@ -32,7 +37,6 @@ export const registerUser = createAsyncThunk('registerUser/user', async user => 
 });
 
 export const loginUser = createAsyncThunk('loginUser/user', async user => {
-  // try {
   const { data } = await axios.post(`${BASE_URL}/auth/login`, {
     email: user.email,
     password: user.password
@@ -46,50 +50,47 @@ export const getUser = createAsyncThunk('getUser/user', async token => {
       Authorization: token
     }
   });
+
   return data;
 });
 
 export const updateToken = createAsyncThunk('updateToken/user', async (_, { dispatch }) => {
-  try {
-    const { data } = await axios.post(`${BASE_URL}/auth/token`, {
-      token: localStorage.getItem('token')
-    });
-    dispatch(getUser(data.accessToken));
-    return data;
-  } catch (err) {
-    console.log(err);
-  }
+  const { data } = await axios.post(`${BASE_URL}/auth/token`, {
+    token: localStorage.getItem('refreshToken')
+  });
+  dispatch(getUser(data.accessToken));
+
+  return data;
 });
 
 export const updateUser = createAsyncThunk('updateUser/user', async ({ name, email, password }) => {
-  try {
-    const { data } = await axios.patch(`${BASE_URL}/auth/user`, {
-      headers: {
-        Authorization: {
-          name: name,
-          email: email,
-          password: password
-        }
+  const { data } = await axios.patch(`${BASE_URL}/auth/user`, {
+    headers: {
+      Authorization: {
+        name: name,
+        email: email,
+        password: password
       }
-    });
-    return data;
-  } catch (err) {
-    console.log(err);
-  }
+    }
+  });
+
+  return data;
 });
 
 export const logout = createAsyncThunk('logout/user', async () => {
   await axios
     .post(`${BASE_URL}/auth/logout`, {
-      token: localStorage.getItem('token')
+      token: localStorage.getItem('refreshToken')
     })
-    .then(localStorage.removeItem('token'), localStorage.removeItem('tokenEndDate'));
+    .then(localStorage.removeItem('refreshToken'), localStorage.removeItem('accessTokenEndDate'));
 });
 
-export const forgotPassword = createAsyncThunk('forgotPassword/user', async email => {
-  await axios.post(`${BASE_URL}/password-reset`, {
-    email: email
-  });
+export const forgotPassword = createAsyncThunk('forgotPassword/user', async ({ email }) => {
+  await axios
+    .post(`${BASE_URL}/password-reset`, {
+      email: email
+    })
+    .then(res => console.log('письмо отправлено', res));
 });
 
 export const resetPassword = createAsyncThunk('resetPassword/user', async ({ password, token }) => {
@@ -107,7 +108,7 @@ const userSlice = createSlice({
       name: '',
       email: ''
     },
-    token: ''
+    accessToken: ''
   },
   extraReducers: {
     [registerUser.fulfilled]: (state, action) => {
@@ -121,17 +122,15 @@ const userSlice = createSlice({
       state.user.name = action.payload.user.name;
     },
     [updateToken.fulfilled]: (state, action) => {
-      const timestemp = new Date().getTime() + 20 * 60 * 1000;
-      const tokenEndDate = new Date(timestemp);
+      const accessTokenEndDate = getAccessTokenEndDate();
 
-      state.isAuthenticated = true;
-      state.token = action.payload.accessToken;
-      localStorage.setItem('tokenEndDate', tokenEndDate);
-      localStorage.setItem('token', action.payload.refreshToken);
+      state.accessToken = action.payload.accessToken;
+      localStorage.setItem('accessTokenEndDate', accessTokenEndDate);
+      localStorage.setItem('refreshToken', action.payload.refreshToken);
     },
-    [logout.fulfilled]: (state, action) => {
+    [logout.fulfilled]: state => {
       state.user = { name: '', email: '' };
-      state.isAuthenticated = false;
+      state.accessToken = '';
     }
   }
 });
