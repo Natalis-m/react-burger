@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import Style from '../form/formStyle.module.css';
 import { loginUser } from '../../services/slices/userSlice';
 import { useForm } from '../../hooks/useForm';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 function Login() {
   const { values, handleChange } = useForm({
@@ -24,7 +25,7 @@ function Login() {
 
   const location = useLocation();
   const from = location.state && location.state.from;
-  const isUserLoggedIn = useSelector(state => state.userReducer.accessToken);
+  const isUserLoggedIn = useTypedSelector(state => state.userReducer.accessToken);
 
   useEffect(() => {
     if (from && isUserLoggedIn) {

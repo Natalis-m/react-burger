@@ -1,7 +1,7 @@
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useCallback } from 'react';
 import { useDrop } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import BurgerConstructorStyle from './BurgerConstructor.module.css';
 import ElementFilling from '../BurgerElement/ElementFilling';
 import ElementBun from '../BurgerElement/ElementBun';
@@ -9,10 +9,11 @@ import { addFilling, clearConstructor } from '../../services/slices/burgerConstr
 import { sendBurger } from '../../services/slices/createdOrderSlice';
 import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 function BurgerConstructor({ openModal }) {
   const dispatch = useDispatch();
-  const { filling, bun } = useSelector(state => state.burgerConstructorReducer);
+  const { filling, bun } = useTypedSelector(state => state.burgerConstructorReducer);
   const arrPriceIngredient = filling.map(ingredient => ingredient.price).concat(bun.price * 2);
 
   const renderCard = useCallback((ingredient, i) => {
@@ -31,7 +32,7 @@ function BurgerConstructor({ openModal }) {
     });
     return sum;
   }
-  const isUserLoaded = useSelector(state => state.userReducer);
+  const isUserLoaded = useTypedSelector(state => state.userReducer);
 
   const navigate = useNavigate();
   const location = useLocation();

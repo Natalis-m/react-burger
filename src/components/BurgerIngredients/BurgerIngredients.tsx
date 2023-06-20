@@ -1,13 +1,13 @@
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredients.module.css';
 import BurgerIngredient from '../BurgerIngredient/BurgerIngredient';
-import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import Skeleton from '../BurgerIngredient/Skeleton';
 import { arrData } from '../../utils/ui';
 import { useInView } from 'react-intersection-observer';
 import PropTypes from 'prop-types';
 import { useLocation, Link } from 'react-router-dom';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 const BurgerIngredients = () => {
   const location = useLocation();
@@ -17,7 +17,7 @@ const BurgerIngredients = () => {
   const [current, setCurrent] = useState('bun');
 
   const skeletons = [...new Array(2)].map((_, index) => <Skeleton key={index} />);
-  const { items, status } = useSelector(state => state.getIngredientsReducer);
+  const { items, status } = useTypedSelector(state => state.getIngredientsReducer);
 
   const getIngredient = (typeIngredient, dragType) => {
     return items

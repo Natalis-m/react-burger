@@ -1,12 +1,13 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { setBun } from '../../services/slices/burgerConstructorSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 function ElementBun({ type, item }) {
   const dispatch = useDispatch();
-  const bun = useSelector(state => state.burgerConstructorReducer.bun);
+  const bun = useTypedSelector(state => state.burgerConstructorReducer.bun);
 
   const [{}, dropBun] = useDrop({
     accept: 'bun',

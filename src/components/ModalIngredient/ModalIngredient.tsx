@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 const ModalIngredient = () => {
-  const { id } = useSelector(state => state.currentIngredientReducer);
+  const { id } = useTypedSelector(state => state.currentIngredientReducer);
   return <IngredientDetails id={id} />;
 };
 

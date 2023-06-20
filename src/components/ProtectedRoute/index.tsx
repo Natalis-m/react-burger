@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 function ProtectedRoute({ element }) {
-  const isUserLoggedIn = useSelector(state => state.userReducer.accessToken);
+  const isUserLoggedIn = useTypedSelector(state => state.userReducer.accessToken);
   const location = useLocation();
 
   if (isUserLoggedIn) {

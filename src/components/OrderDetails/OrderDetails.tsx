@@ -1,9 +1,9 @@
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 import img from '../../images/done.png';
 import Skeleton from './Skeleton';
 
 function OrderDetails() {
-  const orderNumber = useSelector(state => state.createdOrderReducer.order.number);
+  const orderNumber = useTypedSelector(state => state.createdOrderReducer.order.number);
   return (
     <>
       {orderNumber > 0 ? (

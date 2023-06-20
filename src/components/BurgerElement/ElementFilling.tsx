@@ -1,14 +1,15 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { deletIngredient, setFilling } from '../../services/slices/burgerConstructorSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import Style from './ElementFilling.module.css';
 import PropTypes from 'prop-types';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 function ElementFilling({ _id, name, price, image, index }) {
   const dispatch = useDispatch();
-  const filling = useSelector(state => state.burgerConstructorReducer.filling);
+  const filling = useTypedSelector(state => state.burgerConstructorReducer.filling);
 
   const removeIngredient = () => {
     const finedIndex = filling.findIndex(item => item._id === _id);

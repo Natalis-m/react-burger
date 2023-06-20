@@ -4,7 +4,8 @@ import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-component
 import Style from './ProfileStyle.module.css';
 import { logout, updateUser } from '../../services/slices/userSlice';
 import { useForm } from '../../hooks/useForm';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 function Profile() {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ function Profile() {
 
   const [dataChanged, setDataChanged] = useState(false);
 
-  const state = useSelector(state => state.userReducer);
+  const state = useTypedSelector(state => state.userReducer);
 
   useEffect(() => {
     setValues({

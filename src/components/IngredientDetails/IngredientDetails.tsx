@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 import IngredientStyle from './IngredientDetails.module.css';
 
 export default function IngredientDetails({ id }) {
-  const arrIngredients = useSelector(state => state.getIngredientsReducer.items);
+  const arrIngredients = useTypedSelector(state => state.getIngredientsReducer.items);
 
   const elementIngredient = arrIngredients.find(element => element._id === id);
 

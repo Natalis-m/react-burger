@@ -1,11 +1,11 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredient.module.css';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
 
 function BurgerIngredient({ _id, drag, type, image, name, price }) {
-  const { filling, bun } = useSelector(state => state.burgerConstructorReducer);
+  const { filling, bun } = useTypedSelector(state => state.burgerConstructorReducer);
   const [, dragRef] = useDrag({
     type: drag,
     item: { _id, name, price, image }
