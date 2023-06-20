@@ -4,11 +4,11 @@ import { useEffect } from 'react';
 import Style from '../form/formStyle.module.css';
 import { forgotPassword } from '../../services/slices/userSlice';
 import { useForm } from '../../hooks/useForm';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../hooks/useTypedSelector';
 
 function ForgotPassword() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isAuth = localStorage.getItem('user');
   const { values, handleChange } = useForm({
     email: ''

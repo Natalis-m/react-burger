@@ -9,7 +9,7 @@ import OrderDetails from '../../components/OrderDetails/OrderDetails';
 import Modal from '../../components/Modal/Modal';
 import { useLocation, Outlet, useParams, useNavigate } from 'react-router-dom';
 import { changeDetailsIngredient } from '../../services/slices/currentIngredientSlice';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../hooks/useTypedSelector';
 
 function Home() {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ function Home() {
 
   const [openModal, setOpenModal] = useState({ modalIngredient: false, modalOrder: false });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (background && id) {

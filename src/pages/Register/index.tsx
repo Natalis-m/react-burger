@@ -1,10 +1,10 @@
 import { Button, Input, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Style from '../form/formStyle.module.css';
 import { useForm } from '../../hooks/useForm';
-import { useDispatch } from 'react-redux';
 import { registerUser } from '../../services/slices/userSlice';
+import { useAppDispatch } from '../../hooks/useTypedSelector';
 
 function Register() {
   const { values, handleChange } = useForm({
@@ -15,7 +15,7 @@ function Register() {
 
   const [eye, setEye] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isAuth = localStorage.getItem('user');
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function Register() {
     }
   }, [isAuth]);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     dispatch(registerUser(values));
   };

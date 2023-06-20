@@ -1,12 +1,11 @@
 import { Button, EmailInput, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Style from '../form/formStyle.module.css';
 import { loginUser } from '../../services/slices/userSlice';
 import { useForm } from '../../hooks/useForm';
-import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useAppDispatch, useTypedSelector } from '../../hooks/useTypedSelector';
 
 function Login() {
   const { values, handleChange } = useForm({
@@ -16,9 +15,9 @@ function Login() {
 
   const [eye, setEye] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     dispatch(loginUser(values));
   };

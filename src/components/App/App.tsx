@@ -10,13 +10,12 @@ import NotFound from '../../pages/NotFound';
 import Profile from '../../pages/Profile';
 import ProtectedRoute from '../ProtectedRoute';
 import { updateToken } from '../../services/slices/userSlice';
-import { useDispatch } from 'react-redux';
 import PageIngredient from '../../pages/PageIngredient/PageIngredient';
 import { fetchIngredients } from '../../services/slices/getIngredientsSlice';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useAppDispatch, useTypedSelector } from '../../hooks/useTypedSelector';
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const background = location.state && location.state.background;
   const arrivalPoint = location.state === 'forgotPassword';
