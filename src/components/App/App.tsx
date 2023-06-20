@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import Layout from '../pages/Layout';
-import Home from '../pages/Home';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-import ResetPassword from '../pages/Reset-password';
-import ForgotPassword from '../pages/Forgot-password';
-import NotFound from '../pages/NotFound';
-import Profile from '../pages/Profile';
+import Layout from '../../pages/Layout';
+import Home from '../../pages/Home';
+import Login from '../../pages/Login';
+import Register from '../../pages/Register';
+import ResetPassword from '../../pages/Reset-password';
+import ForgotPassword from '../../pages/Forgot-password';
+import NotFound from '../../pages/NotFound';
+import Profile from '../../pages/Profile';
 import ProtectedRoute from '../ProtectedRoute';
-import { forgotPassword, updateToken } from '../../services/slices/userSlice';
+import { updateToken } from '../../services/slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import PageIngredient from '../pages/PageIngredient/PageIngredient';
+import PageIngredient from '../../pages/PageIngredient/PageIngredient';
 import { fetchIngredients } from '../../services/slices/getIngredientsSlice';
 
 function App() {
