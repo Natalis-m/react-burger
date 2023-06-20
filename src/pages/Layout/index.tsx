@@ -1,5 +1,5 @@
 import Style from './LayoutStyle.module.css';
-import AppHeader from '../../AppHeader/AppHeader';
+import AppHeader from '../../components/AppHeader/AppHeader';
 import { Outlet } from 'react-router-dom';
 
 function Layout() {

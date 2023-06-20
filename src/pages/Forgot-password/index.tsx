@@ -2,8 +2,8 @@ import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-comp
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Style from '../form/formStyle.module.css';
-import { forgotPassword } from '../../../services/slices/userSlice';
-import { useForm } from '../../../hooks/useForm';
+import { forgotPassword } from '../../services/slices/userSlice';
+import { useForm } from '../../hooks/useForm';
 import { useDispatch } from 'react-redux';
 
 function ForgotPassword() {

@@ -2,8 +2,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Style from './ProfileStyle.module.css';
-import { logout, updateUser } from '../../../services/slices/userSlice';
-import { useForm } from '../../../hooks/useForm';
+import { logout, updateUser } from '../../services/slices/userSlice';
+import { useForm } from '../../hooks/useForm';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Profile() {

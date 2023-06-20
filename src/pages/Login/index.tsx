@@ -2,8 +2,8 @@ import { Button, EmailInput, Input } from '@ya.praktikum/react-developer-burger-
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Style from '../form/formStyle.module.css';
-import { loginUser } from '../../../services/slices/userSlice';
-import { useForm } from '../../../hooks/useForm';
+import { loginUser } from '../../services/slices/userSlice';
+import { useForm } from '../../hooks/useForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 

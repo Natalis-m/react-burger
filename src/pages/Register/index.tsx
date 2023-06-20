@@ -2,9 +2,9 @@ import { Button, Input, EmailInput } from '@ya.praktikum/react-developer-burger-
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Style from '../form/formStyle.module.css';
-import { useForm } from '../../../hooks/useForm';
+import { useForm } from '../../hooks/useForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../../../services/slices/userSlice';
+import { registerUser } from '../../services/slices/userSlice';
 
 function Register() {
   const { values, handleChange } = useForm({
