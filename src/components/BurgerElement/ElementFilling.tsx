@@ -3,7 +3,6 @@ import { deletIngredient, setFilling } from '../../services/slices/burgerConstru
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import Style from './ElementFilling.module.css';
-import PropTypes from 'prop-types';
 import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
 
 interface elementFillingProps {
@@ -93,11 +92,3 @@ function ElementFilling({ _id, name, price, image, index }: elementFillingProps)
 }
 
 export default ElementFilling;
-
-ElementFilling.propTypes = {
-  _id: PropTypes.string,
-  name: PropTypes.string,
-  price: PropTypes.number,
-  image: PropTypes.string,
-  index: PropTypes.number
-};

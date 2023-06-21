@@ -1,7 +1,6 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { setBun } from '../../services/slices/burgerConstructorSlice';
 import { useDrop } from 'react-dnd';
-import PropTypes from 'prop-types';
 import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
 
 interface elementBunProps {
@@ -33,8 +32,3 @@ function ElementBun({ type, item }: elementBunProps) {
 }
 
 export default ElementBun;
-
-ElementBun.propTypes = {
-  type: PropTypes.string,
-  item: PropTypes.string
-};
