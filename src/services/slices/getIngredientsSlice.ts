@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { BASE_URL } from '../../utils/api';
 import axios from 'axios';
 import { Ingredient } from '../../model/ingredient.model';
@@ -9,8 +9,13 @@ export const fetchIngredients = createAsyncThunk('ingredients/fetchIngredients',
   return data;
 });
 
-const initialState = {
-  items: [] as Ingredient[],
+interface stateType {
+  items: Ingredient[];
+  status: 'loading' | 'success' | 'error';
+}
+
+const initialState: stateType = {
+  items: [],
   status: 'loading'
 };
 
@@ -19,15 +24,19 @@ const getIngredientsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [fetchIngredients.pending]: state => {
+    [fetchIngredients.pending]: (state: stateType) => {
       state.status = 'loading';
     },
-    [fetchIngredients.fulfilled]: (state, action) => {
+    [fetchIngredients.fulfilled]: (
+      state: stateType,
+      action: PayloadAction<{ data: Ingredient[]; success: boolean }>
+    ) => {
       const { data } = action.payload;
+
       state.items = data.map(e => ({ ...e, count: 0 }));
       state.status = 'success';
     },
-    [fetchIngredients.rejected]: (state, error) => {
+    [fetchIngredients.rejected]: (state: stateType, error) => {
       state.status = 'error';
       state.items = [];
       console.log('Error:', error);

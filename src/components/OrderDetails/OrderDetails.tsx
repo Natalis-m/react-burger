@@ -1,4 +1,4 @@
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useTypedSelector } from '../../hooks/useTyped';
 import img from '../../images/done.png';
 import Skeleton from './Skeleton';
 

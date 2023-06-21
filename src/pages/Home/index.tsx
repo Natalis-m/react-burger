@@ -9,7 +9,7 @@ import OrderDetails from '../../components/OrderDetails/OrderDetails';
 import Modal from '../../components/Modal/Modal';
 import { useLocation, Outlet, useParams, useNavigate } from 'react-router-dom';
 import { changeDetailsIngredient } from '../../services/slices/currentIngredientSlice';
-import { useAppDispatch } from '../../hooks/useTypedSelector';
+import { useAppDispatch } from '../../hooks/useTyped';
 import { ModalState } from '../../model/modal-sate.model';
 
 function Home() {

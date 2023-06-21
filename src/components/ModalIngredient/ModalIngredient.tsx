@@ -1,4 +1,4 @@
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useTypedSelector } from '../../hooks/useTyped';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 const ModalIngredient = () => {

@@ -12,37 +12,43 @@ const writeUserData = (state, action) => {
   const accessTokenEndDate = getAccessTokenEndDate();
 
   state.user = action.payload.user;
-  state.isAuthenticated = true;
+  // state.isAuthenticated = true;
   state.accessToken = action.payload.accessToken;
 
   localStorage.setItem('accessTokenEndDate', accessTokenEndDate);
   localStorage.setItem('refreshToken', action.payload.refreshToken);
 };
 
-export const registerUser = createAsyncThunk('registerUser/user', async user => {
-  await axios
-    .post(`${BASE_URL}/auth/register`, {
-      email: user.email,
-      password: user.password,
-      name: user.name
-    })
-    .then(({ data }) => {
-      return data;
-    })
-    .catch(res => {
-      res.response.data.message == 'User already exists'
-        ? alert('Такой пользователь уже существует')
-        : alert('Что-то пошло не так, повторите попытку позже');
-    });
-});
+export const registerUser = createAsyncThunk(
+  'registerUser/user',
+  async (user: { email: string; password: string; name: string }) => {
+    await axios
+      .post(`${BASE_URL}/auth/register`, {
+        email: user.email,
+        password: user.password,
+        name: user.name
+      })
+      .then(({ data }) => {
+        return data;
+      })
+      .catch(res => {
+        res.response.data.message == 'User already exists'
+          ? alert('Такой пользователь уже существует')
+          : alert('Что-то пошло не так, повторите попытку позже');
+      });
+  }
+);
 
-export const loginUser = createAsyncThunk('loginUser/user', async user => {
-  const { data } = await axios.post(`${BASE_URL}/auth/login`, {
-    email: user.email,
-    password: user.password
-  });
-  return data;
-});
+export const loginUser = createAsyncThunk(
+  'loginUser/user',
+  async (user: { email: string; password: string }) => {
+    const { data } = await axios.post(`${BASE_URL}/auth/login`, {
+      email: user.email,
+      password: user.password
+    });
+    return data;
+  }
+);
 
 export const getUser = createAsyncThunk('getUser/user', async token => {
   const { data } = await axios.get(`${BASE_URL}/auth/user`, {
@@ -63,19 +69,22 @@ export const updateToken = createAsyncThunk('updateToken/user', async (_, { disp
   return data;
 });
 
-export const updateUser = createAsyncThunk('updateUser/user', async ({ name, email, password }) => {
-  const { data } = await axios.patch(`${BASE_URL}/auth/user`, {
-    headers: {
-      Authorization: {
-        name: name,
-        email: email,
-        password: password
+export const updateUser = createAsyncThunk(
+  'updateUser/user',
+  async (values: { name: string; email: string; password: string }) => {
+    const { data } = await axios.patch(`${BASE_URL}/auth/user`, {
+      headers: {
+        Authorization: {
+          name: values.name,
+          email: values.email,
+          password: values.password
+        }
       }
-    }
-  });
+    });
 
-  return data;
-});
+    return data;
+  }
+);
 
 export const logout = createAsyncThunk('logout/user', async () => {
   await axios
@@ -85,31 +94,38 @@ export const logout = createAsyncThunk('logout/user', async () => {
     .then(localStorage.removeItem('refreshToken'), localStorage.removeItem('accessTokenEndDate'));
 });
 
-export const forgotPassword = createAsyncThunk('forgotPassword/user', async ({ email }) => {
-  await axios
-    .post(`${BASE_URL}/password-reset`, {
-      email: email
-    })
-    .then(res => console.log('письмо отправлено', res));
-});
+export const forgotPassword = createAsyncThunk(
+  'forgotPassword/user',
+  async (value: { email: string }) => {
+    await axios
+      .post(`${BASE_URL}/password-reset`, {
+        email: value.email
+      })
+      .then(res => console.log('письмо отправлено', res));
+  }
+);
 
-export const resetPassword = createAsyncThunk('resetPassword/user', async ({ password, token }) => {
-  await axios.post(`${BASE_URL}/password-reset/reset`, {
-    password: password,
-    token: token
-  });
-});
+export const resetPassword = createAsyncThunk(
+  'resetPassword/user',
+  async (values: { password: string; token: string }) => {
+    await axios.post(`${BASE_URL}/password-reset/reset`, {
+      password: values.password,
+      token: values.token
+    });
+  }
+);
+
+const defaultState = {
+  user: {
+    name: '',
+    email: ''
+  },
+  accessToken: ''
+};
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    isAuthenticated: false,
-    user: {
-      name: '',
-      email: ''
-    },
-    accessToken: ''
-  },
+  initialState: defaultState,
   extraReducers: {
     [registerUser.fulfilled]: (state, action) => {
       writeUserData(state, action);
@@ -123,7 +139,6 @@ const userSlice = createSlice({
     },
     [updateToken.fulfilled]: (state, action) => {
       const accessTokenEndDate = getAccessTokenEndDate();
-
       state.accessToken = action.payload.accessToken;
       localStorage.setItem('accessTokenEndDate', accessTokenEndDate);
       localStorage.setItem('refreshToken', action.payload.refreshToken);

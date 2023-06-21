@@ -1,26 +1,20 @@
+import React from 'react';
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import Style from '../form/formStyle.module.css';
 import { forgotPassword } from '../../services/slices/userSlice';
 import { useForm } from '../../hooks/useForm';
-import { useAppDispatch } from '../../hooks/useTypedSelector';
+import { useAppDispatch } from '../../hooks/useTyped';
 
 function ForgotPassword() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const isAuth = localStorage.getItem('user');
   const { values, handleChange } = useForm({
     email: ''
   });
 
-  useEffect(() => {
-    if (isAuth) {
-      setTimeout(navigate('/', { replace: true }), 500);
-    }
-  }, [isAuth]);
-
-  const handleSubmit = () => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e: React.FormEvent) => {
+    e.preventDefault();
     navigate('/reset-password', { state: 'forgotPassword' });
     dispatch(forgotPassword(values));
   };

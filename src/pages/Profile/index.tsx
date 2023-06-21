@@ -4,13 +4,13 @@ import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-component
 import Style from './ProfileStyle.module.css';
 import { logout, updateUser } from '../../services/slices/userSlice';
 import { useForm } from '../../hooks/useForm';
-import { useAppDispatch, useTypedSelector } from '../../hooks/useTypedSelector';
+import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
 
 function Profile() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const styleLink = ({ isActive }) => {
+  const styleLink = ({ isActive }: { isActive: boolean }) => {
     return isActive
       ? `${Style.li} + ${Style.li_active} +  text text_type_main-medium`
       : `${Style.li} +  text text_type_main-medium text_color_inactive`;
@@ -29,22 +29,23 @@ function Profile() {
   useEffect(() => {
     setValues({
       name: state.user.name,
-      email: state.user.email
+      email: state.user.email,
+      password: '...'
     });
   }, [state.user]);
 
-  const handleLogoutClick = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLogoutClick = (e: React.MouseEvent) => {
     e.preventDefault();
     dispatch(logout());
     navigate('/');
   };
 
-  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(updateUser(values.name, values.email, values.password));
+    dispatch(updateUser(values));
   };
 
-  const handleCancelChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCancelChanges = (e: React.SyntheticEvent<Element, Event>) => {
     e.preventDefault();
     setValues({
       ...values,
@@ -122,7 +123,7 @@ function Profile() {
           />
           {dataChanged && (
             <div className={Style.profileBtn}>
-              <Button type="primary" onClick={handleCancelChanges}>
+              <Button htmlType="button" type="primary" onClick={handleCancelChanges}>
                 Отмена
               </Button>
               <Button htmlType="submit" type="primary" size="medium">

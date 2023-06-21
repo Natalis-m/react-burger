@@ -2,7 +2,7 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { setBun } from '../../services/slices/burgerConstructorSlice';
 import { useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
-import { useAppDispatch, useTypedSelector } from '../../hooks/useTypedSelector';
+import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
 
 interface elementBunProps {
   type: 'top' | 'bottom';

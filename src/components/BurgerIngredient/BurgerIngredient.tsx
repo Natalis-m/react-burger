@@ -1,7 +1,7 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredient.module.css';
 import { useDrag } from 'react-dnd';
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useTypedSelector } from '../../hooks/useTyped';
 import { Ingredient } from '../../model/ingredient.model';
 
 interface burgerIngredientProps

@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import Style from './ElementFilling.module.css';
 import PropTypes from 'prop-types';
-import { useAppDispatch, useTypedSelector } from '../../hooks/useTypedSelector';
+import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
 
 interface elementFillingProps {
   _id: string;

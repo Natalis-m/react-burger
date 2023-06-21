@@ -5,7 +5,7 @@ import Style from '../form/formStyle.module.css';
 import { loginUser } from '../../services/slices/userSlice';
 import { useForm } from '../../hooks/useForm';
 import { useLocation } from 'react-router-dom';
-import { useAppDispatch, useTypedSelector } from '../../hooks/useTypedSelector';
+import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
 
 function Login() {
   const { values, handleChange } = useForm({
@@ -17,7 +17,7 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(loginUser(values));
   };

@@ -7,7 +7,7 @@ import ElementBun from '../BurgerElement/ElementBun';
 import { addFilling, clearConstructor } from '../../services/slices/burgerConstructorSlice';
 import { sendBurger } from '../../services/slices/createdOrderSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useTypedSelector } from '../../hooks/useTypedSelector';
+import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
 import { Ingredient } from '../../model/ingredient.model';
 import { ModalState } from '../../model/modal-sate.model';
 

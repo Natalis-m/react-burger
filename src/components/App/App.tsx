@@ -12,7 +12,7 @@ import ProtectedRoute from '../ProtectedRoute';
 import { updateToken } from '../../services/slices/userSlice';
 import PageIngredient from '../../pages/PageIngredient/PageIngredient';
 import { fetchIngredients } from '../../services/slices/getIngredientsSlice';
-import { useAppDispatch, useTypedSelector } from '../../hooks/useTypedSelector';
+import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
 
 function App() {
   const dispatch = useAppDispatch();

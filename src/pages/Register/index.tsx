@@ -1,10 +1,10 @@
 import { Button, Input, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Style from '../form/formStyle.module.css';
 import { useForm } from '../../hooks/useForm';
 import { registerUser } from '../../services/slices/userSlice';
-import { useAppDispatch } from '../../hooks/useTypedSelector';
+import { useAppDispatch } from '../../hooks/useTyped';
 
 function Register() {
   const { values, handleChange } = useForm({
@@ -14,17 +14,9 @@ function Register() {
   });
 
   const [eye, setEye] = useState(false);
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const isAuth = localStorage.getItem('user');
 
-  useEffect(() => {
-    if (isAuth) {
-      setTimeout(navigate('/', { replace: true }), 500);
-    }
-  }, [isAuth]);
-
-  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(registerUser(values));
   };
@@ -44,7 +36,7 @@ function Register() {
             size={'default'}
             extraClass="ml-1"
           />
-          <EmailInput onChange={handleChange} value={values.email} name={'email'} icon={false} />
+          <EmailInput onChange={handleChange} value={values.email} name={'email'} />
           <Input
             onChange={handleChange}
             value={values.password}

@@ -1,4 +1,4 @@
-import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { useTypedSelector } from '../../hooks/useTyped';
 import { Ingredient } from '../../model/ingredient.model';
 import IngredientStyle from './IngredientDetails.module.css';
 
