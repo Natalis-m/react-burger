@@ -99,11 +99,9 @@ export const logout = createAsyncThunk('logout/user', async () => {
 export const forgotPassword = createAsyncThunk(
   'forgotPassword/user',
   async (value: { email: string }) => {
-    await axios
-      .post(`${BASE_URL}/password-reset`, {
-        email: value.email
-      })
-      .then(res => console.log('письмо отправлено', res));
+    await axios.post(`${BASE_URL}/password-reset`, {
+      email: value.email
+    });
   }
 );
 
