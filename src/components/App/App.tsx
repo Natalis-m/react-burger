@@ -18,7 +18,7 @@ function App() {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const background = location.state && location.state.background;
-  const arrivalPoint = location.state === 'forgotPassword';
+  const arrivalPoint = location.state?.arrivalPoint === 'forgotPassword';
 
   const isRefreshToken = localStorage.getItem('refreshToken');
   const state = useTypedSelector(state => state.userReducer);

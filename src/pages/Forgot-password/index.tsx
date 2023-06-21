@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Style from '../form/formStyle.module.css';
 import { forgotPassword } from '../../services/slices/userSlice';
 import { useForm } from '../../hooks/useForm';
@@ -13,9 +13,11 @@ function ForgotPassword() {
     email: ''
   });
 
+  const location = useLocation();
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate('/reset-password', { state: 'forgotPassword' });
+    const from = location.state && location.state.from;
+    navigate('/reset-password', { state: { arrivalPoint: 'forgotPassword', from } });
     dispatch(forgotPassword(values));
   };
 

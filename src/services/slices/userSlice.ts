@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BASE_URL } from '../../utils/api';
 import axios from 'axios';
 
@@ -8,11 +8,10 @@ const getAccessTokenEndDate = () => {
   return new Date(timestemp);
 };
 
-const writeUserData = (state, action) => {
-  const accessTokenEndDate = getAccessTokenEndDate();
+const writeUserData = (state: typeof defaultState, action: PayloadAction<typeof defaultState>) => {
+  const accessTokenEndDate = getAccessTokenEndDate().toString();
 
   state.user = action.payload.user;
-  // state.isAuthenticated = true;
   state.accessToken = action.payload.accessToken;
 
   localStorage.setItem('accessTokenEndDate', accessTokenEndDate);
@@ -22,7 +21,7 @@ const writeUserData = (state, action) => {
 export const registerUser = createAsyncThunk(
   'registerUser/user',
   async (user: { email: string; password: string; name: string }) => {
-    await axios
+    return await axios
       .post(`${BASE_URL}/auth/register`, {
         email: user.email,
         password: user.password,
@@ -50,7 +49,7 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const getUser = createAsyncThunk('getUser/user', async token => {
+export const getUser = createAsyncThunk('getUser/user', async (token: string) => {
   const { data } = await axios.get(`${BASE_URL}/auth/user`, {
     headers: {
       Authorization: token
@@ -91,7 +90,10 @@ export const logout = createAsyncThunk('logout/user', async () => {
     .post(`${BASE_URL}/auth/logout`, {
       token: localStorage.getItem('refreshToken')
     })
-    .then(localStorage.removeItem('refreshToken'), localStorage.removeItem('accessTokenEndDate'));
+    .then(() => {
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('accessTokenEndDate');
+    });
 });
 
 export const forgotPassword = createAsyncThunk(
@@ -120,33 +122,35 @@ const defaultState = {
     name: '',
     email: ''
   },
-  accessToken: ''
+  accessToken: '',
+  refreshToken: ''
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState: defaultState,
-  extraReducers: {
-    [registerUser.fulfilled]: (state, action) => {
+  reducers: {},
+  extraReducers: builder => {
+    builder.addCase(registerUser.fulfilled, (state, action) => {
       writeUserData(state, action);
-    },
-    [loginUser.fulfilled]: (state, action) => {
+    });
+    builder.addCase(loginUser.fulfilled, (state, action) => {
       writeUserData(state, action);
-    },
-    [getUser.fulfilled]: (state, action) => {
+    });
+    builder.addCase(getUser.fulfilled, (state, action) => {
       state.user.email = action.payload.user.email;
       state.user.name = action.payload.user.name;
-    },
-    [updateToken.fulfilled]: (state, action) => {
+    });
+    builder.addCase(updateToken.fulfilled, (state, action) => {
       const accessTokenEndDate = getAccessTokenEndDate();
       state.accessToken = action.payload.accessToken;
-      localStorage.setItem('accessTokenEndDate', accessTokenEndDate);
+      localStorage.setItem('accessTokenEndDate', accessTokenEndDate.toString());
       localStorage.setItem('refreshToken', action.payload.refreshToken);
-    },
-    [logout.fulfilled]: state => {
+    });
+    builder.addCase(logout.fulfilled, state => {
       state.user = { name: '', email: '' };
       state.accessToken = '';
-    }
+    });
   }
 });
 

@@ -20,7 +20,7 @@ function ResetPassword() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(resetPassword(values));
-    navigate('/login', { state: { from: location } });
+    navigate('/login', { state: { from: location.state?.from } });
   };
 
   return (

@@ -23,24 +23,23 @@ const getIngredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {},
-  extraReducers: {
-    [fetchIngredients.pending]: (state: stateType) => {
+  extraReducers: builder => {
+    builder.addCase(fetchIngredients.pending, (state: stateType) => {
       state.status = 'loading';
-    },
-    [fetchIngredients.fulfilled]: (
-      state: stateType,
-      action: PayloadAction<{ data: Ingredient[]; success: boolean }>
-    ) => {
-      const { data } = action.payload;
-
-      state.items = data.map(e => ({ ...e, count: 0 }));
-      state.status = 'success';
-    },
-    [fetchIngredients.rejected]: (state: stateType, error) => {
+    });
+    builder.addCase(
+      fetchIngredients.fulfilled,
+      (state: stateType, action: PayloadAction<{ data: Ingredient[]; success: boolean }>) => {
+        const { data } = action.payload;
+        state.items = data.map(e => ({ ...e, count: 0 }));
+        state.status = 'success';
+      }
+    );
+    builder.addCase(fetchIngredients.rejected, (state: stateType, error) => {
       state.status = 'error';
       state.items = [];
       console.log('Error:', error);
-    }
+    });
   }
 });
 

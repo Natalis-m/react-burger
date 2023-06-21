@@ -24,16 +24,13 @@ const createdOrderSlice = createSlice({
   name: 'createdOrder',
   initialState,
   reducers: {},
-  extraReducers: {
-    [sendBurger.pending]: state => {
-      state = [];
-    },
-    [sendBurger.fulfilled]: (state, action) => {
+  extraReducers: builder => {
+    builder.addCase(sendBurger.fulfilled, (_state, action) => {
       return { ...action.payload };
-    },
-    [sendBurger.rejected]: (state, error) => {
-      console.log('Error:', error);
-    }
+    });
+    builder.addCase(sendBurger.rejected, (_state, action) => {
+      console.log('Error:', action.error);
+    });
   }
 });
 

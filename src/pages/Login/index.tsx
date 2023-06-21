@@ -61,7 +61,7 @@ function Login() {
       </p>
       <p className="text text_type_main-default text_color_inactive">
         Забыли пароль?{' '}
-        <Link to="/forgot-password" className={Style.link}>
+        <Link to="/forgot-password" className={Style.link} state={{ from }}>
           Восстановить пароль
         </Link>
       </p>
