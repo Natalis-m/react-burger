@@ -10,6 +10,7 @@ import Modal from '../../components/Modal/Modal';
 import { useLocation, Outlet, useParams, useNavigate } from 'react-router-dom';
 import { changeDetailsIngredient } from '../../services/slices/currentIngredientSlice';
 import { useAppDispatch } from '../../hooks/useTypedSelector';
+import { ModalState } from '../../model/modal-sate.model';
 
 function Home() {
   const navigate = useNavigate();
@@ -17,7 +18,10 @@ function Home() {
   const { id } = useParams();
   const background = location.state && location.state.background;
 
-  const [openModal, setOpenModal] = useState({ modalIngredient: false, modalOrder: false });
+  const [openModal, setOpenModal] = useState<ModalState>({
+    modalIngredient: false,
+    modalOrder: false
+  });
 
   const dispatch = useAppDispatch();
 
@@ -31,15 +35,15 @@ function Home() {
   return (
     <div className={Style.content}>
       <DndProvider backend={HTML5Backend}>
-        <BurgerIngredients openModal={setOpenModal} />
-        <BurgerConstructor openModal={setOpenModal} />
+        <BurgerIngredients />
+        <BurgerConstructor setOpenModal={setOpenModal} />
       </DndProvider>
       <Outlet />
       {openModal.modalIngredient && (
         <Modal
           onClose={() => {
             setOpenModal({ modalIngredient: false });
-            navigate('/');
+            navigate(-1);
           }}
         >
           <ModalIngredient />
