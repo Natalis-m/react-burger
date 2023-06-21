@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { BASE_URL } from '../../utils/api';
 import axios from 'axios';
+import { Ingredient } from '../../model/ingredient.model';
 
 export const fetchIngredients = createAsyncThunk('ingredients/fetchIngredients', async () => {
   const { data } = await axios.get(`${BASE_URL}/ingredients`);
@@ -9,7 +10,7 @@ export const fetchIngredients = createAsyncThunk('ingredients/fetchIngredients',
 });
 
 const initialState = {
-  items: [],
+  items: [] as Ingredient[],
   status: 'loading'
 };
 

@@ -1,10 +1,16 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredient.module.css';
 import { useDrag } from 'react-dnd';
-import PropTypes from 'prop-types';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { Ingredient } from '../../model/ingredient.model';
 
-function BurgerIngredient({ _id, drag, type, image, name, price }) {
+interface burgerIngredientProps
+  extends Pick<Ingredient, '_id' | 'type' | 'image' | 'name' | 'price'> {
+  drag: any;
+  draggable: boolean;
+}
+
+function BurgerIngredient({ _id, drag, type, image, name, price }: burgerIngredientProps) {
   const { filling, bun } = useTypedSelector(state => state.burgerConstructorReducer);
   const [, dragRef] = useDrag({
     type: drag,
@@ -26,7 +32,7 @@ function BurgerIngredient({ _id, drag, type, image, name, price }) {
       id={_id}
       ref={dragRef}
       draggable={true}
-      type={type}
+      data-type={type}
       className={BurgerIngredientStyle.card + ' pl-4 mt-6'}
     >
       <img src={image} alt={name} className={BurgerIngredientStyle.img + ' pl-4 pr-4'} />
@@ -42,13 +48,3 @@ function BurgerIngredient({ _id, drag, type, image, name, price }) {
 }
 
 export default BurgerIngredient;
-
-BurgerIngredient.propTypes = {
-  _id: PropTypes.string,
-  drag: PropTypes.string,
-  type: PropTypes.string,
-  onClick: PropTypes.func,
-  name: PropTypes.string,
-  price: PropTypes.number,
-  image: PropTypes.string
-};

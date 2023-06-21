@@ -6,25 +6,32 @@ import ElementFilling from '../BurgerElement/ElementFilling';
 import ElementBun from '../BurgerElement/ElementBun';
 import { addFilling, clearConstructor } from '../../services/slices/burgerConstructorSlice';
 import { sendBurger } from '../../services/slices/createdOrderSlice';
-import PropTypes from 'prop-types';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useTypedSelector } from '../../hooks/useTypedSelector';
+import { Ingredient } from '../../model/ingredient.model';
+import { ModalState } from '../../model/modal-sate.model';
 
-function BurgerConstructor({ openModal }) {
+interface burgerConstructorProps {
+  setOpenModal: React.Dispatch<React.SetStateAction<ModalState>>;
+}
+
+function BurgerConstructor({ setOpenModal }: burgerConstructorProps) {
   const dispatch = useAppDispatch();
   const { filling, bun } = useTypedSelector(state => state.burgerConstructorReducer);
-  const arrPriceIngredient = filling.map(ingredient => ingredient.price).concat(bun.price * 2);
+  const arrPriceIngredient: Array<number> = filling
+    .map((ingredient: Ingredient) => ingredient.price)
+    .concat(bun.price * 2);
 
-  const renderCard = useCallback((ingredient, i) => {
-    return <ElementFilling {...ingredient} key={ingredient.id} index={i} />;
+  const renderCard = useCallback((ingredient: Ingredient, i: number) => {
+    return <ElementFilling {...ingredient} key={ingredient._id} index={i} />;
   }, []);
 
-  const [{}, dropFilling] = useDrop({
+  const [{}, dropFilling]: [any, any] = useDrop({
     accept: 'filling',
     drop: item => dispatch(addFilling(item))
   });
 
-  function priseBurger(arr) {
+  function priceBurger(arr: Array<number>) {
     let sum = 0;
     arr.forEach(item => {
       sum += item;
@@ -44,7 +51,7 @@ function BurgerConstructor({ openModal }) {
         alert('Добавьте булку');
       } else {
         dispatch(sendBurger(arrIngredientId));
-        openModal({ modalOrder: true });
+        setOpenModal({ modalOrder: true });
         dispatch(clearConstructor());
       }
     } else {
@@ -66,7 +73,7 @@ function BurgerConstructor({ openModal }) {
       <ElementBun item="низ" type="bottom" />
       <div className={BurgerConstructorStyle.order + ' pt-10 pr-6'}>
         <div>
-          <span className="text text_type_digits-medium">{priseBurger(arrPriceIngredient)}</span>
+          <span className="text text_type_digits-medium">{priceBurger(arrPriceIngredient)}</span>
           <CurrencyIcon type="primary" />
         </div>
         <Button htmlType="button" type="primary" size="medium" onClick={sendOrder}>
@@ -78,7 +85,3 @@ function BurgerConstructor({ openModal }) {
 }
 
 export default BurgerConstructor;
-
-BurgerConstructor.propTypes = {
-  openModal: PropTypes.func
-};

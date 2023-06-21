@@ -5,9 +5,9 @@ import { useState, useEffect } from 'react';
 import Skeleton from '../BurgerIngredient/Skeleton';
 import { arrData } from '../../utils/ui';
 import { useInView } from 'react-intersection-observer';
-import PropTypes from 'prop-types';
 import { useLocation, Link } from 'react-router-dom';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { Ingredient, IngredientType } from '../../model/ingredient.model';
 
 const BurgerIngredients = () => {
   const location = useLocation();
@@ -19,27 +19,32 @@ const BurgerIngredients = () => {
   const skeletons = [...new Array(2)].map((_, index) => <Skeleton key={index} />);
   const { items, status } = useTypedSelector(state => state.getIngredientsReducer);
 
-  const getIngredient = (typeIngredient, dragType) => {
+  const getIngredient = (typeIngredient: IngredientType, dragType: any) => {
     return items
-      .filter(data => data.type === typeIngredient)
-      .map(data => {
+      .filter((dataIngredient: Ingredient) => dataIngredient.type === typeIngredient)
+      .map((dataIngredient: Ingredient) => {
         return (
           <Link
-            key={data._id}
+            key={dataIngredient._id}
             to={{
-              pathname: `/ingredients/${data._id}`
+              pathname: `/ingredients/${dataIngredient._id}`
             }}
             state={{ background: location }}
           >
-            <BurgerIngredient drag={dragType} draggable={true} key={data._id} {...data} />
+            <BurgerIngredient
+              drag={dragType}
+              draggable={true}
+              key={dataIngredient._id}
+              {...dataIngredient}
+            />
           </Link>
         );
       });
   };
 
-  const handleTabClick = current => {
-    setCurrent(current);
-    document.getElementById(current).scrollIntoView({ block: 'start' });
+  const handleTabClick = (currentIngredientType: string) => {
+    setCurrent(currentIngredientType);
+    document.getElementById(currentIngredientType)?.scrollIntoView({ block: 'start' });
   };
 
   const navigation = () => {
@@ -110,10 +115,4 @@ const BurgerIngredients = () => {
   );
 };
 
-export const { setCount } = BurgerIngredients;
-
 export default BurgerIngredients;
-
-BurgerIngredients.propTypes = {
-  openModal: PropTypes.func
-};

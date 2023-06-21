@@ -4,11 +4,16 @@ import { useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
 import { useAppDispatch, useTypedSelector } from '../../hooks/useTypedSelector';
 
-function ElementBun({ type, item }) {
+interface elementBunProps {
+  type: 'top' | 'bottom';
+  item: 'верх' | 'низ';
+}
+
+function ElementBun({ type, item }: elementBunProps) {
   const dispatch = useAppDispatch();
   const bun = useTypedSelector(state => state.burgerConstructorReducer.bun);
 
-  const [{}, dropBun] = useDrop({
+  const [{}, dropBun]: [any, any] = useDrop({
     accept: 'bun',
     drop: item => {
       dispatch(setBun(item));

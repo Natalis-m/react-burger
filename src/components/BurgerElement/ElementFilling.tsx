@@ -6,7 +6,15 @@ import Style from './ElementFilling.module.css';
 import PropTypes from 'prop-types';
 import { useAppDispatch, useTypedSelector } from '../../hooks/useTypedSelector';
 
-function ElementFilling({ _id, name, price, image, index }) {
+interface elementFillingProps {
+  _id: string;
+  name: string;
+  price: number;
+  image: string;
+  index: number;
+}
+
+function ElementFilling({ _id, name, price, image, index }: elementFillingProps) {
   const dispatch = useAppDispatch();
   const filling = useTypedSelector(state => state.burgerConstructorReducer.filling);
 
@@ -23,7 +31,7 @@ function ElementFilling({ _id, name, price, image, index }) {
     dispatch(deletIngredient(newArrFilling));
   };
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
   const [{ handlerId }, drop] = useDrop({
     accept: 'sorting',
     collect(monitor) {
@@ -31,13 +39,13 @@ function ElementFilling({ _id, name, price, image, index }) {
         handlerId: monitor.getHandlerId()
       };
     },
-    hover(item, monitor) {
+    hover(item: any, monitor) {
       const dragIndex = item.index;
       const hoverIndex = index;
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY = ((hoverBoundingRect?.bottom ?? 0) - (hoverBoundingRect?.top ?? 0)) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = (clientOffset?.y ?? 0) - (hoverBoundingRect?.top ?? 0);
 
       if (!ref.current) {
         return;
@@ -71,7 +79,7 @@ function ElementFilling({ _id, name, price, image, index }) {
       ref={ref}
       className={Style.element + ' pt-4'}
       draggable={true}
-      index={index}
+      data-index={index}
       data-handler-id={handlerId}
     >
       <ConstructorElement

@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
+import { Ingredient } from '../../model/ingredient.model';
 
 const initialState = {
   bun: {
     name: 'добавьте булку',
     price: 0,
-    image: 'https://code.s3.yandex.net/react/code/bun-02.png'
+    image: 'https://code.s3.yandex.net/react/code/bun-02.png',
+    _id: ''
   },
-  filling: []
+  filling: [] as Ingredient[]
 };
 
 const burgerConstructorSlice = createSlice({
