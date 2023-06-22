@@ -11,6 +11,7 @@ export interface Ingredient {
   type: IngredientType;
   __v: number;
   _id: string;
+  id: string;
 }
 
 export type IngredientType = 'bun' | 'main' | 'sauce';

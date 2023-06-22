@@ -23,7 +23,8 @@ function BurgerConstructor({ setOpenModal }: burgerConstructorProps) {
     .concat(bun.price * 2);
 
   const renderCard = useCallback((ingredient: Ingredient, i: number) => {
-    return <ElementFilling {...ingredient} key={ingredient._id} index={i} />;
+    console.log('ing', ingredient);
+    return <ElementFilling {...ingredient} key={ingredient.id} index={i} />;
   }, []);
 
   const [{}, dropFilling]: [any, any] = useDrop({
