@@ -12,7 +12,8 @@ import ProtectedRoute from '../ProtectedRoute';
 import { updateToken } from '../../services/slices/userSlice';
 import PageIngredient from '../../pages/PageIngredient/PageIngredient';
 import { fetchIngredients } from '../../services/slices/getIngredientsSlice';
-import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTyped';
+import { Feed } from '../../pages/feed/feed';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -21,7 +22,7 @@ function App() {
   const arrivalPoint = location.state?.arrivalPoint === 'forgotPassword';
 
   const isRefreshToken = localStorage.getItem('refreshToken');
-  const state = useTypedSelector(state => state.userReducer);
+  const state = useAppSelector(state => state.userReducer);
 
   const accessTokenEndDate = new Date(localStorage.getItem('accessTokenEndDate') ?? '');
   const newDate = new Date();
@@ -45,6 +46,7 @@ function App() {
         <Route path="reset-password" element={arrivalPoint ? <ResetPassword /> : <NotFound />} />
         <Route path="profile/*" element={<ProtectedRoute element={<Profile />} />} />
         <Route path="ingredients/:id" element={background ? <Home /> : <PageIngredient />} />
+        <Route path="feed" element={<Feed />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

@@ -7,7 +7,7 @@ import ElementBun from '../BurgerElement/ElementBun';
 import { addFilling, clearConstructor } from '../../services/slices/burgerConstructorSlice';
 import { sendBurger } from '../../services/slices/createdOrderSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTyped';
 import { Ingredient } from '../../model/ingredient.model';
 import { ModalState } from '../../model/modal-sate.model';
 
@@ -17,7 +17,7 @@ interface burgerConstructorProps {
 
 function BurgerConstructor({ setOpenModal }: burgerConstructorProps) {
   const dispatch = useAppDispatch();
-  const { filling, bun } = useTypedSelector(state => state.burgerConstructorReducer);
+  const { filling, bun } = useAppSelector(state => state.burgerConstructorReducer);
   const arrPriceIngredient: Array<number> = filling
     .map((ingredient: Ingredient) => ingredient.price)
     .concat(bun.price * 2);
@@ -39,7 +39,7 @@ function BurgerConstructor({ setOpenModal }: burgerConstructorProps) {
     });
     return sum;
   }
-  const isUserLoaded = useTypedSelector(state => state.userReducer);
+  const isUserLoaded = useAppSelector(state => state.userReducer);
 
   const navigate = useNavigate();
   const location = useLocation();

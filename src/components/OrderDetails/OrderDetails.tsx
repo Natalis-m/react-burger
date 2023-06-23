@@ -1,9 +1,9 @@
-import { useTypedSelector } from '../../hooks/useTyped';
+import { useAppSelector } from '../../hooks/useTyped';
 import img from '../../images/done.png';
 import Skeleton from './Skeleton';
 
 function OrderDetails() {
-  const orderNumber = useTypedSelector(state => state.createdOrderReducer.order.number);
+  const orderNumber = useAppSelector(state => state.createdOrderReducer.order.number);
   return (
     <>
       {orderNumber > 0 ? (

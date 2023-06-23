@@ -6,7 +6,7 @@ import Skeleton from '../BurgerIngredient/Skeleton';
 import { arrData } from '../../utils/ui';
 import { useInView } from 'react-intersection-observer';
 import { useLocation, Link } from 'react-router-dom';
-import { useTypedSelector } from '../../hooks/useTyped';
+import { useAppSelector } from '../../hooks/useTyped';
 import { Ingredient, IngredientType } from '../../model/ingredient.model';
 
 const BurgerIngredients = () => {
@@ -17,7 +17,7 @@ const BurgerIngredients = () => {
   const [current, setCurrent] = useState('bun');
 
   const skeletons = [...new Array(2)].map((_, index) => <Skeleton key={index} />);
-  const { items, status } = useTypedSelector(state => state.getIngredientsReducer);
+  const { items, status } = useAppSelector(state => state.getIngredientsReducer);
 
   const getIngredient = (typeIngredient: IngredientType, dragType: any) => {
     return items

@@ -1,4 +1,4 @@
-import { useTypedSelector } from '../../hooks/useTyped';
+import { useAppSelector } from '../../hooks/useTyped';
 import { Ingredient } from '../../model/ingredient.model';
 import IngredientStyle from './IngredientDetails.module.css';
 
@@ -7,7 +7,7 @@ interface ingredientDetailsProps {
 }
 
 export default function IngredientDetails({ id }: ingredientDetailsProps) {
-  const arrIngredients = useTypedSelector(state => state.getIngredientsReducer.items);
+  const arrIngredients = useAppSelector(state => state.getIngredientsReducer.items);
 
   const elementIngredient = arrIngredients.find((element: Ingredient) => element._id === id);
 

@@ -1,7 +1,7 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientStyle from './BurgerIngredient.module.css';
 import { useDrag } from 'react-dnd';
-import { useTypedSelector } from '../../hooks/useTyped';
+import { useAppSelector } from '../../hooks/useTyped';
 import { Ingredient } from '../../model/ingredient.model';
 
 interface burgerIngredientProps
@@ -11,7 +11,7 @@ interface burgerIngredientProps
 }
 
 function BurgerIngredient({ _id, drag, type, image, name, price }: burgerIngredientProps) {
-  const { filling, bun } = useTypedSelector(state => state.burgerConstructorReducer);
+  const { filling, bun } = useAppSelector(state => state.burgerConstructorReducer);
   const [, dragRef] = useDrag({
     type: drag,
     item: { _id, name, price, image }
