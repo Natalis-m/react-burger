@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Style from './ProfileStyle.module.css';
 import { logout, updateUser } from '../../services/slices/userSlice';

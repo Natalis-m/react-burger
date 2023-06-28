@@ -1,4 +1,5 @@
 .box {
+  margin: 120px auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 60px;
@@ -36,21 +37,16 @@
   text-align: start;
 }
 
-.inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+.profileOrdersSection {
+  width: 100%;
+  min-width: 844px;
+  grid-column: 2/-1;
 }
 
-.profileBtn {
-  display: flex;
-  justify-content: flex-end;
-  gap: 30px;
-}
-
-.formBody {
+.profileOrdersContainer {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  align-items: center;
+  gap: 16px;
+  max-height: 700px;
+  overflow-y: scroll;
 }

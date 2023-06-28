@@ -14,6 +14,8 @@ import PageIngredient from '../../pages/PageIngredient/PageIngredient';
 import { fetchIngredients } from '../../services/slices/getIngredientsSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/useTyped';
 import { Feed } from '../../pages/feed/feed';
+import { Orders } from '../../pages/orders/orders';
+import OrderInfo from '../orders-info/order-info';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -44,9 +46,11 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset-password" element={arrivalPoint ? <ResetPassword /> : <NotFound />} />
-        <Route path="profile/*" element={<ProtectedRoute element={<Profile />} />} />
-        <Route path="ingredients/:id" element={background ? <Home /> : <PageIngredient />} />
         <Route path="feed" element={<Feed />} />
+        <Route path="/feed/:number" element={<OrderInfo />} />
+        <Route path="profile" element={<ProtectedRoute element={<Profile />} />} />
+        <Route path="profile/orders" element={<ProtectedRoute element={<Orders />} />} />
+        <Route path="ingredients/:id" element={background ? <Home /> : <PageIngredient />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
