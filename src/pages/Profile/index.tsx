@@ -1,10 +1,10 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Style from './ProfileStyle.module.css';
 import { logout, updateUser } from '../../services/slices/userSlice';
 import { useForm } from '../../hooks/useForm';
-import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTyped';
 
 function Profile() {
   const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ function Profile() {
 
   const [dataChanged, setDataChanged] = useState(false);
 
-  const state = useTypedSelector(state => state.userReducer);
+  const state = useAppSelector(state => state.userReducer);
 
   useEffect(() => {
     setValues({

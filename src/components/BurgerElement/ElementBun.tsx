@@ -1,7 +1,7 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { setBun } from '../../services/slices/burgerConstructorSlice';
 import { useDrop } from 'react-dnd';
-import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTyped';
 
 interface elementBunProps {
   type: 'top' | 'bottom';
@@ -10,7 +10,7 @@ interface elementBunProps {
 
 function ElementBun({ type, item }: elementBunProps) {
   const dispatch = useAppDispatch();
-  const bun = useTypedSelector(state => state.burgerConstructorReducer.bun);
+  const bun = useAppSelector(state => state.burgerConstructorReducer.bun);
 
   const [{}, dropBun]: [any, any] = useDrop({
     accept: 'bun',

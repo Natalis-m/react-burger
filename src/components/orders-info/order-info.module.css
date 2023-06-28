@@ -1,0 +1,65 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 640px;
+  margin: 120px auto;
+  text-align: left;
+}
+
+.heading {
+  text-align: center;
+}
+
+.status {
+  color: #00cccc;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+.ingredient {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: left;
+}
+
+.preview {
+  height: 64px;
+  width: 64px;
+  background-color: #131316;
+  border-radius: 100px;
+  position: relative;
+  border: 2px solid #801ab2;
+}
+
+.image {
+  max-width: 112px;
+  position: relative;
+  left: -24px;
+  top: 5px;
+}
+
+.nameBlock {
+  flex-grow: 1;
+}
+
+.name {
+  max-width: 320px;
+}
+
+.bottom {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.total {
+  display: flex;
+  gap: 9px;
+}

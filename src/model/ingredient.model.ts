@@ -1,6 +1,7 @@
 export interface Ingredient {
   calories: number;
   carbohydrates: number;
+  count?: number;
   fat: number;
   image: string;
   image_large: string;

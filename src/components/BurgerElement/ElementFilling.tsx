@@ -3,7 +3,7 @@ import { deletIngredient, setFilling } from '../../services/slices/burgerConstru
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import Style from './ElementFilling.module.css';
-import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTyped';
 
 interface elementFillingProps {
   _id: string;
@@ -15,7 +15,7 @@ interface elementFillingProps {
 
 function ElementFilling({ _id, name, price, image, index }: elementFillingProps) {
   const dispatch = useAppDispatch();
-  const filling = useTypedSelector(state => state.burgerConstructorReducer.filling);
+  const filling = useAppSelector(state => state.burgerConstructorReducer.filling);
 
   const removeIngredient = () => {
     const finedIndex = filling.findIndex(item => item._id === _id);

@@ -5,7 +5,7 @@ import Style from '../form/formStyle.module.css';
 import { loginUser } from '../../services/slices/userSlice';
 import { useForm } from '../../hooks/useForm';
 import { useLocation } from 'react-router-dom';
-import { useAppDispatch, useTypedSelector } from '../../hooks/useTyped';
+import { useAppDispatch, useAppSelector } from '../../hooks/useTyped';
 
 function Login() {
   const { values, handleChange } = useForm({
@@ -24,7 +24,7 @@ function Login() {
 
   const location = useLocation();
   const from = location.state && location.state.from;
-  const isUserLoggedIn = useTypedSelector(state => state.userReducer.accessToken);
+  const isUserLoggedIn = useAppSelector(state => state.userReducer.accessToken);
 
   useEffect(() => {
     if (from && isUserLoggedIn) {
