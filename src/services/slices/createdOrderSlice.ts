@@ -6,9 +6,14 @@ export const sendBurger = createAsyncThunk(
   'createdOrder/sendBurger',
   async (values: { arrIngredientId: string[]; accessToken: string }) => {
     const { data } = await axios.post(
-      `${BASE_URL}/orders?token=${values.accessToken.replace('Bearer ', '')}`,
+      `${BASE_URL}/orders`,
       {
         ingredients: values.arrIngredientId
+      },
+      {
+        headers: {
+          Authorization: values?.accessToken
+        }
       }
     );
 
