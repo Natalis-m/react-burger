@@ -1,4 +1,5 @@
 export const testUrl = 'http://localhost:3000/';
+export const baseUrl = 'https://norma.nomoreparties.space/api';
 
 export const defaultIngredients = [
   {

@@ -1,5 +1,6 @@
 import { defaultIngredients, defaultLogin, testUrl } from '../../support/default';
 import { ingredients, constructor, modal, login } from '../../support/selectors';
+import { baseUrl } from '../../support/default';
 
 describe('Тестируем страницу сбора бургера', () => {
   beforeEach(() => {
@@ -19,7 +20,7 @@ describe('Тестируем страницу сбора бургера', () => 
   // });
 
   it('Отправка заказа и открытие модалки с номером', () => {
-    cy.intercept('https://norma.nomoreparties.space/api/ingredients', {
+    cy.intercept(`${baseUrl}/ingredients`, {
       body: { success: true, data: defaultIngredients }
     });
 
@@ -41,7 +42,7 @@ describe('Тестируем страницу сбора бургера', () => 
     cy.get(login.submitLogin).should('not.have.attr', 'disabled');
     cy.get(login.submitLogin).click();
 
-    cy.intercept('https://norma.nomoreparties.space/api/auth/login', {
+    cy.intercept(`${baseUrl}/auth/login`, {
       body: defaultLogin
     }).as('defaultLogin');
 
