@@ -19,7 +19,7 @@ function ElementBun({ type, item }: elementBunProps) {
     }
   });
   return (
-    <div ref={dropBun}>
+    <div ref={dropBun} className="bun">
       <ConstructorElement
         type={type}
         isLocked={true}

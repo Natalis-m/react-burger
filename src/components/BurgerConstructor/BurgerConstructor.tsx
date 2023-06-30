@@ -62,7 +62,7 @@ function BurgerConstructor({ setOpenModal }: burgerConstructorProps) {
   return (
     <section className={BurgerConstructorStyle.container + ' mt-25'}>
       <ElementBun item="верх" type="top" />
-      <div>
+      <div className="filling">
         <ul
           ref={dropFilling}
           className={BurgerConstructorStyle.burgerMain + ' custom-scroll pr-4 pb-4 pl-0'}
@@ -76,9 +76,11 @@ function BurgerConstructor({ setOpenModal }: burgerConstructorProps) {
           <span className="text text_type_digits-medium">{priceBurger(arrPriceIngredient)}</span>
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType="button" type="primary" size="medium" onClick={sendOrder}>
-          Оформить заказ
-        </Button>
+        <div className="submit">
+          <Button htmlType="button" type="primary" size="medium" onClick={sendOrder}>
+            Оформить заказ
+          </Button>
+        </div>
       </div>
     </section>
   );
