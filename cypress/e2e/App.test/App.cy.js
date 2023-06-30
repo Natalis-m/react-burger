@@ -1,9 +1,9 @@
-import { defaultIngredients, defaultLogin } from '../../support/default';
+import { defaultIngredients, defaultLogin, testUrl } from '../../support/default';
 import { ingredients, constructor, modal, login } from '../../support/selectors';
 
 describe('Тестируем страницу сбора бургера', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/');
+    cy.visit(testUrl);
     cy.viewport(1500, 1200);
   });
 
