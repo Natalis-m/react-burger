@@ -14,7 +14,7 @@ interface stateType {
   status: 'loading' | 'success' | 'error';
 }
 
-const initialState: stateType = {
+export const initialState: stateType = {
   items: [],
   status: 'loading'
 };
@@ -30,8 +30,8 @@ const getIngredientsSlice = createSlice({
     builder.addCase(
       fetchIngredients.fulfilled,
       (state: stateType, action: PayloadAction<{ data: Ingredient[]; success: boolean }>) => {
-        const { data } = action.payload;
-        state.items = data.map(e => ({ ...e, count: 0 }));
+        state.items = [...action.payload.data];
+        state.items = state.items.map(e => ({ ...e, count: e?.count ? e.count : 0 }));
         state.status = 'success';
       }
     );

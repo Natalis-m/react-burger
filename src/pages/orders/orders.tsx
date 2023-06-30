@@ -4,7 +4,7 @@ import { logout } from '../../services/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/useTyped';
 import OrdersFeedItem from '../../components/orders-feed-item/orders-feed-item';
 import { NavLink } from 'react-router-dom';
-import { connectMy } from '../../services/slices/ordersActions';
+import { connectMy, disconnectMy } from '../../services/slices/ordersActions';
 import { WS_MY_ORDERS_URL } from '../../utils/api';
 import { OrderType } from '../../services/slices/ordersReducer';
 
@@ -15,6 +15,10 @@ export function Orders() {
     if (accessToken) {
       dispatch(connectMy(`${WS_MY_ORDERS_URL}?token=${accessToken.replace('Bearer ', '')}`));
     }
+
+    return () => {
+      dispatch(disconnectMy());
+    };
   }, []);
 
   const { orders } = useAppSelector(state => state.ordersReducer.myOrders);

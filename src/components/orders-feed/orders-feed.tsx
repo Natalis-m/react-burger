@@ -3,7 +3,7 @@ import OrdersFeedItem from '../orders-feed-item/orders-feed-item';
 import { useEffect } from 'react';
 import { WS_ORDERS_URL } from '../../utils/api';
 import { useAppDispatch, useAppSelector } from '../../hooks/useTyped';
-import { connectAll } from '../../services/slices/ordersActions';
+import { connectAll, disconnectAll } from '../../services/slices/ordersActions';
 import { OrderType } from '../../services/slices/ordersReducer';
 
 function OrdersFeed() {
@@ -12,6 +12,10 @@ function OrdersFeed() {
 
   useEffect(() => {
     dispatch(connectAll(WS_ORDERS_URL));
+
+    return () => {
+      dispatch(disconnectAll());
+    };
   }, []);
 
   return (

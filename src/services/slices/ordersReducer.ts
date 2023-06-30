@@ -26,7 +26,7 @@ export type OrdersStore = {
   myOrders: { orders: OrderType[]; totalOrders: number; totalOrdersToday: number };
 };
 
-const initialState: OrdersStore = {
+export const initialState: OrdersStore = {
   connectionError: '',
   allOrders: {
     orders: [],
@@ -48,8 +48,12 @@ const ordersReducer = createReducer(initialState, builder => {
     .addCase(wsOpenMy, state => {
       state.connectionError = '';
     })
-    .addCase(wsCloseAll, () => {})
-    .addCase(wsCloseMy, () => {})
+    .addCase(wsCloseAll, () => {
+      console.log('Socket all orders closed');
+    })
+    .addCase(wsCloseMy, () => {
+      console.log('Socket my orders closed');
+    })
     .addCase(wsErrorAll, (state, action) => {
       state.connectionError = action.payload;
     })

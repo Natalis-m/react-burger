@@ -1,5 +1,5 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { deletIngredient, setFilling } from '../../services/slices/burgerConstructorSlice';
+import { deleteIngredient, setFilling } from '../../services/slices/burgerConstructorSlice';
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import Style from './ElementFilling.module.css';
@@ -27,7 +27,7 @@ function ElementFilling({ _id, name, price, image, index }: elementFillingProps)
     const newArrFilling = filling
       .slice(0, finedIndex)
       .concat(filling.slice(finedIndex + 1, filling.length));
-    dispatch(deletIngredient(newArrFilling));
+    dispatch(deleteIngredient(newArrFilling));
   };
 
   const ref = useRef<HTMLLIElement>(null);

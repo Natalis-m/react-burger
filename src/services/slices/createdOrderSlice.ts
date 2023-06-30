@@ -12,7 +12,7 @@ export const sendBurger = createAsyncThunk(
   }
 );
 
-const initialState = {
+export const initialState = {
   name: 'Ваш бургер',
   order: {
     number: 0

@@ -42,7 +42,7 @@ function Profile() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(updateUser(values));
+    dispatch(updateUser({ ...values, accessToken: state.accessToken }));
   };
 
   const handleCancelChanges = (e: React.SyntheticEvent<Element, Event>) => {
