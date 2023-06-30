@@ -17,6 +17,7 @@ interface burgerConstructorProps {
 
 function BurgerConstructor({ setOpenModal }: burgerConstructorProps) {
   const dispatch = useAppDispatch();
+  const { accessToken } = useAppSelector(state => state.userReducer);
   const { filling, bun } = useAppSelector(state => state.burgerConstructorReducer);
   const arrPriceIngredient: Array<number> = filling
     .map((ingredient: Ingredient) => ingredient.price)
@@ -50,7 +51,7 @@ function BurgerConstructor({ setOpenModal }: burgerConstructorProps) {
       if (bun.name === 'добавьте булку') {
         alert('Добавьте булку');
       } else {
-        dispatch(sendBurger(arrIngredientId));
+        dispatch(sendBurger({ arrIngredientId: arrIngredientId, accessToken: accessToken }));
         setOpenModal({ modalOrder: true });
         dispatch(clearConstructor());
       }
