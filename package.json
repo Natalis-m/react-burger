@@ -1,6 +1,7 @@
 {
   "name": "react-burger",
   "version": "0.1.0",
+  "homepage": "https://natalis-m.github.io/react-burger/index.html",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
@@ -29,6 +30,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "eject": "react-scripts eject",
@@ -60,6 +63,7 @@
     "@types/uuid": "^9.0.2",
     "axios-mock-adapter": "^1.21.5",
     "cypress": "^12.16.0",
+    "gh-pages": "^5.0.0",
     "jest-mock-axios": "^4.7.2"
   }
 }
