@@ -31,6 +31,7 @@ function OrdersFeed() {
           updatedAt={order.updatedAt}
           _id={order._id}
           displayStatus={false}
+          nav="feed"
         />
       ))}
     </div>
