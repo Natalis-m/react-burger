@@ -34,11 +34,11 @@ describe('WS обработка', () => {
   it('Записали в стейт список заказов', () => {
     const res = ordersReducer(initialState, { type: wsMessageAll.type, payload: defoltOrders });
 
-    expect(res.allOrders).toEqual(initialState.allOrders);
+    expect(res.allOrders.orders).toEqual(initialState.allOrders.orders);
   });
   it('Записали в стейт историю заказов', () => {
     const res = ordersReducer(initialState, { type: wsMessageMy.type, payload: defoltOrders });
 
-    expect(res.myOrders).toEqual(initialState.myOrders);
+    expect(res.myOrders.orders).toEqual(initialState.myOrders.orders);
   });
 });
