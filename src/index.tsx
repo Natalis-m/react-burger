@@ -10,7 +10,7 @@ import App from './components/App/App';
 const root = ReactDOM.createRoot(document.getElementById('root') ?? new DocumentFragment());
 
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename="/react-burger">
     <Provider store={store}>
       <App />
     </Provider>
