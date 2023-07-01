@@ -4,15 +4,24 @@ import axios from 'axios';
 
 export const sendBurger = createAsyncThunk(
   'createdOrder/sendBurger',
-  async (ingredientsArr: string[]) => {
-    const { data } = await axios.post(`${BASE_URL}/orders`, {
-      ingredients: ingredientsArr
-    });
+  async (values: { arrIngredientId: string[]; accessToken: string }) => {
+    const { data } = await axios.post(
+      `${BASE_URL}/orders`,
+      {
+        ingredients: values.arrIngredientId
+      },
+      {
+        headers: {
+          Authorization: values?.accessToken
+        }
+      }
+    );
+
     return data;
   }
 );
 
-const initialState = {
+export const initialState = {
   name: 'Ваш бургер',
   order: {
     number: 0

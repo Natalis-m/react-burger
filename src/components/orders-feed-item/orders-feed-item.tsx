@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useTyped';
 import styles from './orders-feed-item.module.css';
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -13,6 +13,7 @@ interface OrdersFeedItem {
   updatedAt: string;
   _id: string;
   displayStatus: boolean;
+  nav: string;
 }
 
 function OrdersFeedItem({
@@ -23,8 +24,10 @@ function OrdersFeedItem({
   status,
   updatedAt,
   _id,
-  displayStatus
+  displayStatus,
+  nav
 }: OrdersFeedItem) {
+  const location = useLocation();
   const navigate = useNavigate();
   const allIngredients = useAppSelector(store => store.getIngredientsReducer.items);
   const { orderIngredients, orderSum } = getIngredientDetalis(ingredients, allIngredients);
@@ -51,8 +54,10 @@ function OrdersFeedItem({
     previewIngredients = orderIngredients.slice();
   }
 
+  const order = nav === 'feed' ? 'currentOrderNumber' : 'myOrderNumber';
+
   const openOrder = () => {
-    navigate(`/feed/${number}`);
+    navigate(`/${nav}/${number}`, { state: { [order]: location } });
   };
 
   return (

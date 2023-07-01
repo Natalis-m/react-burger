@@ -1,4 +1,3 @@
-import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useTyped';
 import { OrderType } from '../../services/slices/ordersReducer';
 import styles from './order-info.module.css';
@@ -11,12 +10,8 @@ export type paramsType = {
   id?: string;
 };
 
-export function OrderInfo() {
-  const { orders } = useAppSelector(state => state.ordersReducer.allOrders);
-
-  const { number } = useParams<{ number: string }>();
+export function OrderInfo({ number, orders }: { number: string; orders: OrderType[] }) {
   const elOrder = orders.find((el: OrderType) => el.number === +(number ?? ''));
-
   const allIngredients = useAppSelector(store => store.getIngredientsReducer.items);
 
   if (elOrder) {

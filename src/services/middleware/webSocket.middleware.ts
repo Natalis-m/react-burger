@@ -17,7 +17,7 @@ export const wsMiddleware = (wsActions: WsActionTypes): Middleware => {
     return next => action => {
       const { dispatch } = store;
       let url = '';
-      const { wsConnect, onOpen, onClose, onError, onMessage } = wsActions;
+      const { wsConnect, wsDisconnect, onOpen, onClose, onError, onMessage } = wsActions;
 
       if (wsConnect.match(action)) {
         url = action.payload;
@@ -43,6 +43,10 @@ export const wsMiddleware = (wsActions: WsActionTypes): Middleware => {
         socket.onclose = () => {
           dispatch(onClose());
         };
+
+        if (wsDisconnect.match(action)) {
+          socket.close();
+        }
       }
 
       next(action);

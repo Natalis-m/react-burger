@@ -37,20 +37,26 @@ function Login() {
       <div className={Style.form}>
         <h2 className="text text_type_main-medium">Вход</h2>
         <form className={Style.formBody} onSubmit={handleSubmit}>
-          <EmailInput onChange={handleChange} value={values.email} name={'email'} />
-          <Input
-            onChange={handleChange}
-            value={values.password}
-            name={'password'}
-            placeholder="Пароль"
-            icon={eye ? 'ShowIcon' : 'HideIcon'}
-            extraClass="mb-2"
-            type={eye ? 'text' : 'password'}
-            onIconClick={() => setEye(!eye)}
-          />
-          <Button htmlType="submit" type="primary" size="medium" extraClass="ml-2">
-            Войти
-          </Button>
+          <div className="email">
+            <EmailInput onChange={handleChange} value={values.email} name={'email'} />
+          </div>
+          <div className="password">
+            <Input
+              onChange={handleChange}
+              value={values.password}
+              name={'password'}
+              placeholder="Пароль"
+              icon={eye ? 'ShowIcon' : 'HideIcon'}
+              extraClass="mb-2"
+              type={eye ? 'text' : 'password'}
+              onIconClick={() => setEye(!eye)}
+            />
+          </div>
+          <div className="submit">
+            <Button htmlType="submit" type="primary" size="medium" extraClass="ml-2">
+              Войти
+            </Button>
+          </div>
         </form>
       </div>
       <p className="text text_type_main-default text_color_inactive mb-4">

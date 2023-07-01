@@ -1,23 +1,43 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './orders.module.css';
 import { logout } from '../../services/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/useTyped';
 import OrdersFeedItem from '../../components/orders-feed-item/orders-feed-item';
-import { NavLink } from 'react-router-dom';
-import { connectMy } from '../../services/slices/ordersActions';
+import { NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { connectMy, disconnectMy } from '../../services/slices/ordersActions';
 import { WS_MY_ORDERS_URL } from '../../utils/api';
 import { OrderType } from '../../services/slices/ordersReducer';
+import { ModalState } from '../../model/modal-sate.model';
+import Modal from '../../components/Modal/Modal';
+import OrderInfo from '../../components/orders-info/order-info';
 
 export function Orders() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { number } = useParams<{ number: string }>();
   const { accessToken } = useAppSelector(state => state.userReducer);
+  const { orders } = useAppSelector(state => state.ordersReducer.myOrders);
+  const myOrderNumber = location.state && location.state.myOrderNumber;
+  const [openModal, setOpenModal] = useState<ModalState>({
+    modalMyCurrent: false
+  });
+
+  useEffect(() => {
+    if (myOrderNumber && number) {
+      setOpenModal({ modalMyCurrent: true });
+    }
+  }, [myOrderNumber, number]);
+
   useEffect(() => {
     if (accessToken) {
       dispatch(connectMy(`${WS_MY_ORDERS_URL}?token=${accessToken.replace('Bearer ', '')}`));
     }
-  }, []);
 
-  const { orders } = useAppSelector(state => state.ordersReducer.myOrders);
+    return () => {
+      dispatch(disconnectMy());
+    };
+  }, []);
 
   const handleLogoutClick = (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,20 +81,21 @@ export function Orders() {
               updatedAt={order.updatedAt}
               _id={order._id}
               displayStatus={false}
+              nav="profile/orders"
             />
           ))}
         </div>
       </div>
+      {openModal.modalMyCurrent && number && (
+        <Modal
+          onClose={() => {
+            setOpenModal({ modalMyCurrent: false });
+            navigate(-1);
+          }}
+        >
+          <OrderInfo number={number} orders={orders} />
+        </Modal>
+      )}
     </section>
   );
 }
-
-//              key="649bf13a8a4b62001c8612e9"
-//             createdAt="2023-06-28T08:37:14.758Z"
-//             ingredients={['643d69a5c3f7b9001cfa0945', '643d69a5c3f7b9001cfa0943']}
-//             name="Space антарианский бургер"
-//             number={10164}
-//             status="done"
-//             updatedAt="2023-06-28T08:37:14.928Z"
-//             _id="649bf13a8a4b62001c8612e9"
-//             displayStatus={false}

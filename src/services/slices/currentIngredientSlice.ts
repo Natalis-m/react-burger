@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = { id: '' };
+export const initialState = { id: '' };
 
 const currentIngredientSlice = createSlice({
   name: 'currentIngredient',

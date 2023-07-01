@@ -17,6 +17,7 @@ interface burgerConstructorProps {
 
 function BurgerConstructor({ setOpenModal }: burgerConstructorProps) {
   const dispatch = useAppDispatch();
+  const { accessToken } = useAppSelector(state => state.userReducer);
   const { filling, bun } = useAppSelector(state => state.burgerConstructorReducer);
   const arrPriceIngredient: Array<number> = filling
     .map((ingredient: Ingredient) => ingredient.price)
@@ -50,7 +51,7 @@ function BurgerConstructor({ setOpenModal }: burgerConstructorProps) {
       if (bun.name === 'добавьте булку') {
         alert('Добавьте булку');
       } else {
-        dispatch(sendBurger(arrIngredientId));
+        dispatch(sendBurger({ arrIngredientId: arrIngredientId, accessToken: accessToken }));
         setOpenModal({ modalOrder: true });
         dispatch(clearConstructor());
       }
@@ -62,7 +63,7 @@ function BurgerConstructor({ setOpenModal }: burgerConstructorProps) {
   return (
     <section className={BurgerConstructorStyle.container + ' mt-25'}>
       <ElementBun item="верх" type="top" />
-      <div>
+      <div className="filling">
         <ul
           ref={dropFilling}
           className={BurgerConstructorStyle.burgerMain + ' custom-scroll pr-4 pb-4 pl-0'}
@@ -76,9 +77,11 @@ function BurgerConstructor({ setOpenModal }: burgerConstructorProps) {
           <span className="text text_type_digits-medium">{priceBurger(arrPriceIngredient)}</span>
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType="button" type="primary" size="medium" onClick={sendOrder}>
-          Оформить заказ
-        </Button>
+        <div className="submit">
+          <Button htmlType="button" type="primary" size="medium" onClick={sendOrder}>
+            Оформить заказ
+          </Button>
+        </div>
       </div>
     </section>
   );

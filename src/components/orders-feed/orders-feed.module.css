@@ -4,4 +4,5 @@
   gap: 16px;
   max-height: 1000px;
   overflow-y: scroll;
+  max-width: 800px;
 }

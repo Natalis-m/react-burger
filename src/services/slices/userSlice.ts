@@ -8,7 +8,7 @@ const getAccessTokenEndDate = () => {
   return new Date(timestemp);
 };
 
-const writeUserData = (state: typeof defaultState, action: PayloadAction<typeof defaultState>) => {
+const writeUserData = (state: typeof initialState, action: PayloadAction<typeof initialState>) => {
   const accessTokenEndDate = getAccessTokenEndDate().toString();
 
   state.user = action.payload.user;
@@ -70,16 +70,20 @@ export const updateToken = createAsyncThunk('updateToken/user', async (_, { disp
 
 export const updateUser = createAsyncThunk(
   'updateUser/user',
-  async (values: { name: string; email: string; password: string }) => {
-    const { data } = await axios.patch(`${BASE_URL}/auth/user`, {
-      headers: {
-        Authorization: {
-          name: values.name,
-          email: values.email,
-          password: values.password
+  async (values: { name: string; email: string; password: string; accessToken: string }) => {
+    const { data } = await axios.patch(
+      `${BASE_URL}/auth/user`,
+      {
+        name: values.name,
+        email: values.email,
+        password: values.password
+      },
+      {
+        headers: {
+          Authorization: values.accessToken
         }
       }
-    });
+    );
 
     return data;
   }
@@ -115,7 +119,7 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
-const defaultState = {
+export const initialState = {
   user: {
     name: '',
     email: ''
@@ -126,7 +130,7 @@ const defaultState = {
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: defaultState,
+  initialState,
   reducers: {},
   extraReducers: builder => {
     builder.addCase(registerUser.fulfilled, (state, action) => {

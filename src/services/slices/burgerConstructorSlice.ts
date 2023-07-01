@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { Ingredient } from '../../model/ingredient.model';
 
-const initialState = {
+export const initialState = {
   bun: {
     name: 'добавьте булку',
     price: 0,
@@ -18,10 +18,10 @@ const burgerConstructorSlice = createSlice({
   reducers: {
     addFilling(state, actions) {
       state.filling = [...state.filling, actions.payload];
-      state.filling = state.filling.map(e => ({ ...e, id: uuidv4() }));
+      state.filling = state.filling.map(e => ({ ...e, id: e?.id ? e.id : uuidv4() }));
     },
-    deletIngredient(state, actions) {
-      state.filling = actions.payload;
+    deleteIngredient(state, actions: PayloadAction<Ingredient[]>) {
+      state.filling = [...actions.payload];
     },
     setBun(state, actions) {
       state.bun = actions.payload;
@@ -40,6 +40,6 @@ const burgerConstructorSlice = createSlice({
   }
 });
 
-export const { addFilling, setBun, deletIngredient, setFilling, clearConstructor } =
+export const { addFilling, setBun, deleteIngredient, setFilling, clearConstructor } =
   burgerConstructorSlice.actions;
 export default burgerConstructorSlice.reducer;
