@@ -24,12 +24,7 @@ export function Orders() {
   });
 
   useEffect(() => {
-    console.log('USE EFFECT');
-    console.log('myOrderNumber', myOrderNumber);
-    console.log('number', number);
-
     if (myOrderNumber && number) {
-      console.log('number', number);
       setOpenModal({ modalMyCurrent: true });
     }
   }, [myOrderNumber, number]);
